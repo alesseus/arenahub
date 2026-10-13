@@ -1,5 +1,7 @@
 package com.hub.arenahub.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,6 +14,7 @@ public class Utente {
 	private String email;
 	private String nome;
 	private String cognome;
+	@JsonIgnore
 	private String password;
 	private Boolean admin;
 

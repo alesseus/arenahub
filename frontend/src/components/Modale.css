@@ -6,6 +6,7 @@
   border-radius: calc(var(--radius) * 2);
   background: var(--surface);
   color: var(--text);
+  max-height: calc(100dvh - 16px);
   box-shadow: 0 24px 64px -16px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(34 199 224 / 0.12), 0 0 48px -12px rgb(34 199 224 / 0.3);
 }
 
@@ -15,6 +16,10 @@
 
 .modale.is-enorme {
   width: min(1120px, calc(100% - 32px));
+}
+
+.modale.is-enorme .modale-contenuto {
+  padding: clamp(18px, 2.5vw, 24px) clamp(18px, 3vw, 28px);
 }
 
 .modale.is-piena .modale-contenuto {

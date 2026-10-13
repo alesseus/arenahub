@@ -523,6 +523,10 @@
 }
 
 @media (max-width: 600px) {
+  .accesso-form {
+    gap: 0.75rem;
+  }
+
   .campo-corto {
     max-width: none;
   }

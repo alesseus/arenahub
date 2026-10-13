@@ -196,7 +196,8 @@ function Admin() {
 
             <Modale
                 aperta={vista !== null}
-                titolo={vista ? titoli[vista] : undefined}
+                titolo={vista && vista !== 'tabellone' ? titoli[vista] : undefined}
+                etichetta={vista ? titoli[vista] : undefined}
                 larga={vista === 'nuovo' || vista === 'modifica' || vista === 'iscritti'}
                 enorme={vista === 'tabellone'}
                 onChiudi={chiudi}

@@ -235,9 +235,6 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
             const giocatori = partitaScelta.partecipazioni ?? [];
             return (
                 <form className="tab-pannello" onSubmit={salvaRisultato}>
-                    <p className="tab-pannello-titolo">
-                        Risultato, {nomeTurno(partitaScelta.turno, totaleTurni).toLowerCase()}
-                    </p>
                     <div className="tab-punteggi">
                         {giocatori.map((g, i) => (
                             <label key={g.email} className="campo">
@@ -252,10 +249,10 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
                                 />
                             </label>
                         ))}
-                    </div>
-                    <div className="modale-azioni">
-                        <button type="button" className="btn btn-ghost" onClick={() => setScelta(null)}>Annulla</button>
-                        <button type="submit" className="btn btn-primary" disabled={inCorso}>Salva risultato</button>
+                        <div className="tab-punteggi-azioni">
+                            <button type="button" className="btn btn-ghost" onClick={() => setScelta(null)}>Annulla</button>
+                            <button type="submit" className="btn btn-primary" disabled={inCorso}>Salva risultato</button>
+                        </div>
                     </div>
                 </form>
             );
@@ -288,9 +285,12 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
     return (
         <div className="tab">
             <div className="tab-testa">
-                <p className="tab-torneo">
-                    <strong>{torneo.nome}</strong>, {iscritti.length} giocatori
-                </p>
+                <div>
+                    <h2 className="tab-titolo">Tabellone</h2>
+                    <p className="tab-torneo">
+                        <strong>{torneo.nome}</strong>, {iscritti.length} giocatori
+                    </p>
+                </div>
                 {torneo.stato !== 'concluso' && (
                     <button className="btn btn-ghost" onClick={onModificaDati}>Modifica dati torneo</button>
                 )}

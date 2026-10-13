@@ -79,7 +79,7 @@ function FormTorneo({ torneo, onSalvato, onAnnulla }: Props) {
             </div>
             <label className="campo">
                 <span>Descrizione</span>
-                <textarea value={descrizione} onChange={(e) => setDescrizione(e.target.value)} rows={4} />
+                <textarea value={descrizione} onChange={(e) => setDescrizione(e.target.value)} rows={3} />
             </label>
             <div className="accesso-riga">
                 <label className="campo">

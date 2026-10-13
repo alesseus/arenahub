@@ -2,7 +2,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  aspect-ratio: 21 / 8;
+  height: clamp(150px, 27vh, 270px);
   overflow: hidden;
   background: var(--photo-ground);
 }
@@ -35,7 +35,7 @@
 }
 
 .dettaglio-corpo {
-  padding: clamp(20px, 4vw, 32px);
+  padding: clamp(20px, 3vw, 28px);
 }
 
 .dettaglio-gioco {
@@ -45,15 +45,15 @@
 
 .dettaglio-nome {
   margin-top: 0.25rem;
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(1.875rem, 4.5vw, 2.75rem);
   line-height: 0.95;
 }
 
 .dettaglio-dati {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem 2rem;
-  margin: 1.5rem 0 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+  margin: 1.25rem 0 0;
 }
 
 .dettaglio-dati dt {
@@ -88,7 +88,7 @@
 }
 
 .dettaglio-descrizione {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   line-height: 1.65;
   color: var(--text-muted);
 }
@@ -99,8 +99,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1.5rem;
-  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  padding: 0.875rem 1.25rem;
   border: 1px solid var(--line);
   border-radius: calc(var(--radius) * 2);
   background: var(--bg);
@@ -212,11 +212,11 @@
 
 @media (max-width: 600px) {
   .dettaglio-media {
-    aspect-ratio: 16 / 9;
+    height: clamp(130px, 22vh, 190px);
   }
 
   .dettaglio-dati {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .azione .btn {

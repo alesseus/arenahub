@@ -133,8 +133,11 @@ Query (opzionale): `?stato=aperto|chiuso|concluso`
 
 **200**
 ```json
-[ { "id_gioco": 1, "nome": "Calcio virtuale" }, { "id_gioco": 2, "nome": "Picchiaduro" } ]
+[ { "id_gioco": 1, "nome": "Calcio virtuale", "path_foto": "/img/giochi/calcio-virtuale.png" },
+  { "id_gioco": 2, "nome": "Picchiaduro", "path_foto": null } ]
 ```
+
+`path_foto` è il percorso dell'immagine del gioco; è `null` se il gioco non ha una foto.
 
 ---
 
@@ -147,7 +150,7 @@ Query (opzionali): `?stato=` `&id_gioco=` `&data=` `&limit=`
 **200**
 ```json
 [ { "id_torneo": 3, "nome": "Torneo d'autunno",
-    "gioco": { "id_gioco": 1, "nome": "Calcio virtuale" },
+    "gioco": { "id_gioco": 1, "nome": "Calcio virtuale", "path_foto": "/img/giochi/calcio-virtuale.png" },
     "data_ora_inizio": "2026-10-16T15:00:00", "data_ora_fine": "2026-10-16T19:00:00",
     "posti_max": 16, "stato": "aperto",
     "iscritti": 7, "posti_liberi": 9, "in_attesa": 0 } ]
@@ -162,7 +165,7 @@ Query (opzionali): `?stato=` `&id_gioco=` `&data=` `&limit=`
 **200**
 ```json
 { "id_torneo": 3, "nome": "Torneo d'autunno", "descrizione": "...",
-  "gioco": { "id_gioco": 1, "nome": "Calcio virtuale" },
+  "gioco": { "id_gioco": 1, "nome": "Calcio virtuale", "path_foto": "/img/giochi/calcio-virtuale.png" },
   "data_ora_inizio": "2026-10-16T15:00:00", "data_ora_fine": "2026-10-16T19:00:00",
   "posti_max": 16, "stato": "aperto",
   "iscritti": 7, "posti_liberi": 9, "in_attesa": 0,
@@ -361,7 +364,8 @@ Query (opzionali): `?id_torneo=` `&dal=` `&al=`
 **200**
 ```json
 { "torneo": { "id_torneo": 3, "nome": "Torneo d'autunno",
-              "gioco": { "id_gioco": 1, "nome": "Calcio virtuale" } },
+              "gioco": { "id_gioco": 1, "nome": "Calcio virtuale",
+                         "path_foto": "/img/giochi/calcio-virtuale.png" } },
   "classifica": [
     { "posizione": 1, "email": "mario@its.it", "nome": "Mario", "cognome": "Rossi", "punteggio": 24 },
     { "posizione": 2, "email": "luca@its.it", "nome": "Luca", "cognome": "Bianchi", "punteggio": 18 } ] }

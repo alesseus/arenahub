@@ -45,17 +45,17 @@ public class TorneoController {
 			@RequestParam(required = false) String data,
 			@RequestParam(required = false) Integer limit) {
 		if (stato != null && !List.of("aperto", "chiuso", "concluso").contains(stato)) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Filtro non valido");
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Filtro non valido");
 		}
 		if (limit != null && limit <= 0) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Filtro non valido");
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Filtro non valido");
 		}
 		LocalDate giorno = null;
 		if (data != null) {
 			try {
 				giorno = LocalDate.parse(data);
 			} catch (DateTimeParseException e) {
-				return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Filtro non valido");
+				return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Filtro non valido");
 			}
 		}
 		LocalDate giornoScelto = giorno;
@@ -71,7 +71,7 @@ public class TorneoController {
 
 	@GetMapping("/{id_torneo}")
 	public ResponseEntity<?> dettaglio(@PathVariable Long id_torneo,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		Optional<Torneo> optional = torneiSrv.vediTorneo(id_torneo);
 		if (optional.isEmpty()) {
 			return errore(HttpStatus.NOT_FOUND, "Torneo non trovato");
@@ -86,21 +86,21 @@ public class TorneoController {
 
 	@PostMapping
 	public ResponseEntity<?> crea(@RequestBody Torneo nuovo,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		ResponseEntity<?> negato = controllaAdmin(email);
 		if (negato != null) {
 			return negato;
 		}
 		String datiNonValidi = torneiSrv.controllaDati(nuovo);
 		if (datiNonValidi != null) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, datiNonValidi);
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, datiNonValidi);
 		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(torneiSrv.addTorneo(nuovo));
 	}
 
 	@PutMapping("/{id_torneo}")
 	public ResponseEntity<?> modifica(@PathVariable Long id_torneo, @RequestBody Torneo cambiato,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		ResponseEntity<?> negato = controllaAdmin(email);
 		if (negato != null) {
 			return negato;
@@ -111,17 +111,17 @@ public class TorneoController {
 		}
 		String datiNonValidi = torneiSrv.controllaDati(cambiato);
 		if (datiNonValidi != null) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, datiNonValidi);
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, datiNonValidi);
 		}
 		if (cambiato.getPosti_max() < iscrizioniSrv.contaIscritti(id_torneo)) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Ci sono già più iscritti del nuovo limite");
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Ci sono già più iscritti del nuovo limite");
 		}
 		return ResponseEntity.ok(torneiSrv.cambiaTorneo(optional.get(), cambiato));
 	}
 
 	@PutMapping("/{id_torneo}/stato")
 	public ResponseEntity<?> cambiaStato(@PathVariable Long id_torneo, @RequestBody Map<String, String> body,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		ResponseEntity<?> negato = controllaAdmin(email);
 		if (negato != null) {
 			return negato;
@@ -135,7 +135,7 @@ public class TorneoController {
 		boolean ammessa = ("aperto".equals(attuale) && "chiuso".equals(nuovo))
 				|| ("chiuso".equals(attuale) && "concluso".equals(nuovo));
 		if (!ammessa) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Transizione di stato non valida");
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Transizione di stato non valida");
 		}
 		Torneo torneo = torneiSrv.cambiaStato(optional.get(), nuovo);
 		return ResponseEntity.ok(Map.of("id_torneo", torneo.getId_torneo(), "stato", torneo.getStato()));

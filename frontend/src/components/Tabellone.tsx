@@ -79,33 +79,40 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
 
     const ordinate = [...partite].sort((a, b) => a.turno - b.turno || a.id_partita - b.id_partita);
     const ultimo = ordinate.length > 0 ? ordinate[ordinate.length - 1].turno : 0;
-    const partiteUltimo = ordinate.filter((p) => p.turno === ultimo);
-    const turnoFinito = partiteUltimo.length > 0 && partiteUltimo.every((p) => p.stato === 'conclusa');
-    const vincitori = vincitoriDi(partiteUltimo);
-    const campione = turnoFinito && vincitori.length === 1 ? vincitori[0] : null;
-    const totaleTurni = Math.max(Math.ceil(Math.log2(Math.max(iscritti.length, 2))), ultimo);
+    const tutti: Giocatore[] = iscritti.map((i) => ({ email: i.email, nome: nomeDi(i) }));
     const partitaScelta = ordinate.find((p) => p.id_partita === scelta);
 
-    const prossimi: Giocatore[] =
-        ultimo === 0
-            ? iscritti.map((i) => ({ email: i.email, nome: nomeDi(i) }))
-            : turnoFinito && !campione
-              ? vincitori.map((v) => ({ email: v.email, nome: nomeDi(v) }))
-              : [];
-
-    const colonne: { turno: number; partite: Partita[]; anteprima?: Giocatore[][]; vuote?: number }[] = [];
-    let giocatoriTurno = iscritti.length;
-    for (let t = 1; t <= totaleTurni; t++) {
+    const turni: { partite: Partita[]; liberi: Giocatore[]; finito: boolean; avanzati: Giocatore[] }[] = [];
+    let inGioco = tutti;
+    for (let t = 1; t <= ultimo; t++) {
         const reali = ordinate.filter((p) => p.turno === t);
-        const quante = Math.ceil(giocatoriTurno / 2);
-        if (reali.length > 0) {
-            colonne.push({ turno: t, partite: reali });
+        const presenti = new Set(reali.flatMap((p) => (p.partecipazioni ?? []).map((x) => x.email.toLowerCase())));
+        const liberi = inGioco.filter((g) => !presenti.has(g.email.toLowerCase()));
+        const finito = reali.length > 0 && reali.every((p) => p.stato === 'conclusa');
+        const avanzati = [...vincitoriDi(reali).map((v) => ({ email: v.email, nome: nomeDi(v) })), ...liberi];
+        turni.push({ partite: reali, liberi, finito, avanzati });
+        inGioco = avanzati;
+    }
+
+    const corrente = turni[turni.length - 1];
+    const campione = corrente?.finito && corrente.avanzati.length === 1 ? corrente.avanzati[0] : null;
+    const prossimi: Giocatore[] = !corrente ? tutti : corrente.finito && !campione ? corrente.avanzati : [];
+    const totaleTurni = Math.max(Math.ceil(Math.log2(Math.max(tutti.length, 2))), ultimo);
+
+    const colonne: { turno: number; partite: Partita[]; liberi: Giocatore[]; anteprima?: Giocatore[][]; vuote?: number }[] = [];
+    let quanti = tutti.length;
+    for (let t = 1; t <= totaleTurni; t++) {
+        const info = turni[t - 1];
+        if (info) {
+            colonne.push({ turno: t, partite: info.partite, liberi: info.liberi });
+            quanti = info.partite.length + info.liberi.length;
         } else if (t === ultimo + 1 && prossimi.length > 1) {
-            colonne.push({ turno: t, partite: [], anteprima: aCoppie(prossimi) });
+            colonne.push({ turno: t, partite: [], liberi: [], anteprima: aCoppie(prossimi) });
+            quanti = Math.ceil(prossimi.length / 2);
         } else {
-            colonne.push({ turno: t, partite: [], vuote: quante });
+            colonne.push({ turno: t, partite: [], liberi: [], vuote: Math.ceil(quanti / 2) });
+            quanti = Math.ceil(quanti / 2);
         }
-        giocatoriTurno = reali.length > 0 ? reali.length : quante;
     }
 
     function scegli(p: Partita) {
@@ -154,16 +161,12 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
         const turno = ultimo + 1;
         esegui(async () => {
             for (const coppia of aCoppie(prossimi)) {
-                const partita = await creaPartita(id, {
+                if (coppia.length < 2) continue;
+                await creaPartita(id, {
                     turno,
                     data_ora: `${dataTurno}:00`,
                     partecipazioni: coppia.map((g) => ({ email: g.email })),
                 });
-                if (coppia.length === 1) {
-                    await salvaRisultati(partita.id_partita, [
-                        { email: coppia[0].email, punteggio: null, posizione: 1, qualificato: true },
-                    ]);
-                }
             }
             setDataTurno('');
         });
@@ -210,7 +213,7 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
             return (
                 <div className="tab-campione">
                     <p className="tab-campione-etichetta">Vincitore</p>
-                    <p className="tab-campione-nome">{nomeDi(campione)}</p>
+                    <p className="tab-campione-nome">{campione.nome}</p>
                     {torneo.stato === 'chiuso' && !confermaFine && (
                         <button className="btn btn-primary" onClick={() => setConfermaFine(true)}>Concludi torneo</button>
                     )}
@@ -319,6 +322,14 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
                                         <div key={p.id_partita} className={classi.join(' ')}>{contenuto}</div>
                                     );
                                 })}
+                                {c.liberi.map((g) => (
+                                    <div key={g.email} className="tab-partita is-libera">
+                                        <div className="tab-giocatore is-vincitore">
+                                            <span className="tab-nome">{g.nome}</span>
+                                        </div>
+                                        <div className="tab-giocatore is-vuoto"><span>Nessun avversario</span></div>
+                                    </div>
+                                ))}
                                 {c.anteprima?.map((coppia, i) => (
                                     <div key={i} className="tab-partita is-anteprima">
                                         {riga(coppia[0])}

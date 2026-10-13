@@ -275,3 +275,7 @@ button.tab-partita:focus-visible {
     width: 1rem;
   }
 }
+
+.tab-colonna:not(:last-child) .tab-partita.is-libera::after {
+  background: var(--accent);
+}

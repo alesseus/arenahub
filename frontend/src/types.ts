@@ -32,3 +32,13 @@ export type Iscrizione = {
     attesa: boolean;
     posizione_attesa: number | null;
 };
+
+export type TorneoMio = {
+    id_torneo: number;
+    nome: string;
+    data_ora_inizio: string;
+    stato: 'aperto' | 'chiuso' | 'concluso';
+    data_iscrizione: string;
+    attesa: boolean;
+    posizione_attesa: number | null;
+};

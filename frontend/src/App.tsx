@@ -4,6 +4,7 @@ import DettaglioTorneo from "./components/DettaglioTorneo";
 import Navbar from "./components/Navbar";
 import UtenteProvider from "./components/UtenteProvider";
 import Home from "./pages/Home";
+import Profilo from "./pages/Profilo";
 import Tornei from "./pages/Tornei";
 
 function App () {
@@ -14,6 +15,7 @@ function App () {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tornei" element={<Tornei />} />
+          <Route path="/profilo" element={<Profilo />} />
         </Routes>
         <DettaglioTorneo />
         <AccessoModale />

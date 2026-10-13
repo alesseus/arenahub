@@ -1,0 +1,325 @@
+.profilo-page {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 56px) var(--gutter) 96px;
+}
+
+.profilo-page .page-title {
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+}
+
+.profilo-griglia {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+.profilo-colonna {
+  position: sticky;
+  top: 96px;
+  animation: page-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.profilo-scheda {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  overflow: hidden;
+  padding: 0 1.5rem 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  background: var(--surface);
+  text-align: center;
+}
+
+.profilo-scheda::before {
+  content: '';
+  justify-self: stretch;
+  height: 88px;
+  margin: 0 -1.5rem;
+  background:
+    linear-gradient(115deg, transparent 0 58%, rgb(255 255 255 / 0.12) 58% 64%, transparent 64%),
+    linear-gradient(135deg, var(--accent) 0%, #0b6f80 100%);
+}
+
+.profilo-avatar {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  margin-top: -52px;
+  margin-bottom: 0.75rem;
+  border: 4px solid var(--surface);
+  border-radius: 50%;
+  background: var(--photo-ground);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.profilo-nome {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.profilo-email {
+  margin-bottom: 1.25rem;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.profilo-scheda .btn {
+  width: 100%;
+}
+
+.profilo-tornei {
+  min-width: 0;
+  animation: page-in 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+}
+
+.profilo-sottotitolo {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+.miei-tornei {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mio-torneo {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 1rem 1.25rem 1rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  background: var(--surface);
+  transition: border-color 160ms ease-out, transform 160ms ease-out;
+}
+
+.mio-torneo::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 4px;
+  border-radius: 0 2px 2px 0;
+  background: var(--line);
+}
+
+.mio-torneo.is-aperto::before {
+  background: var(--accent);
+}
+
+.mio-torneo:hover {
+  border-color: var(--text-muted);
+}
+
+.mio-torneo.is-concluso {
+  background: transparent;
+}
+
+.mio-torneo-link {
+  display: grid;
+  flex: 1 1 240px;
+  gap: 0.25rem;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mio-torneo-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.mio-torneo-link:focus-visible {
+  outline: none;
+}
+
+.mio-torneo:has(.mio-torneo-link:focus-visible) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+}
+
+.mio-torneo-nome {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.mio-torneo-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mio-torneo-info::first-letter {
+  text-transform: uppercase;
+}
+
+.mio-torneo-stato {
+  padding: 0 0.625rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.mio-torneo-stato.is-aperto {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.mio-torneo-attesa {
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius);
+  background: rgb(251 191 36 / 0.14);
+  color: var(--warning);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.mio-torneo .btn {
+  position: relative;
+  z-index: 1;
+}
+
+.mio-torneo.is-loading {
+  min-height: 84px;
+  background: linear-gradient(100deg, var(--surface) 30%, var(--surface-2) 50%, var(--surface) 70%) 0 0 / 300% 100%;
+  animation: shimmer 1400ms ease-in-out infinite;
+}
+
+.mio-torneo.is-loading::before {
+  content: none;
+}
+
+.profilo-messaggio {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px dashed var(--line);
+  border-radius: calc(var(--radius) * 2);
+  color: var(--text-muted);
+}
+
+.avviso-posto {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 1rem 3.5rem 1rem 1.25rem;
+  border: 1px solid var(--accent);
+  border-radius: calc(var(--radius) * 2);
+  background: rgb(34 199 224 / 0.12);
+  animation: page-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.avviso-chiudi {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.avviso-chiudi:hover {
+  background: rgb(34 199 224 / 0.16);
+}
+
+.avviso-chiudi::before,
+.avviso-chiudi::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--text);
+}
+
+.avviso-chiudi::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.avviso-chiudi::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.profilo-ospite {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  max-width: 560px;
+}
+
+.profilo-ospite p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+}
+
+.campo input:disabled {
+  border-style: dashed;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profilo-colonna,
+  .profilo-tornei,
+  .avviso-posto,
+  .mio-torneo.is-loading {
+    animation: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .profilo-griglia {
+    grid-template-columns: 1fr;
+  }
+
+  .profilo-colonna {
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .mio-torneo .btn {
+    width: 100%;
+  }
+}

@@ -1,5 +1,5 @@
 import { getUtente, type Utente } from './sessione';
-import type { Iscrizione, Torneo } from './types';
+import type { Iscrizione, Torneo, TorneoMio } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -63,4 +63,15 @@ export function registrazione(dati: { nome: string; cognome: string; email: stri
 
 export function logout() {
     return chiama<void>('/api/auth/logout', { method: 'POST' });
+}
+
+export function getMieiTornei() {
+    return chiama<TorneoMio[]>('/api/utenti/me/tornei');
+}
+
+export function modificaProfilo(dati: { nome: string; cognome: string }) {
+    return chiama<Utente>('/api/utenti/me', {
+        method: 'PATCH',
+        body: JSON.stringify(dati),
+    });
 }

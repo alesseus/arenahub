@@ -23,3 +23,12 @@ export function salvaUtente(utente: Utente) {
 export function cancellaUtente() {
     localStorage.removeItem(CHIAVE);
 }
+
+export function salvaTema(tema: 'light' | 'dark') {
+    try {
+        localStorage.setItem('arenahub-tema', tema);
+    } catch {
+        return false;
+    }
+    return true;
+}

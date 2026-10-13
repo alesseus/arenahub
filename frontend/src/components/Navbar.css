@@ -12,6 +12,99 @@
   box-shadow: 0 1px 0 rgb(34 199 224 / 0.12), 0 8px 24px -16px rgb(34 199 224 / 0.35);
 }
 
+.navbar-marchi {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-its {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  border-left: 1px solid var(--line);
+  opacity: 0.9;
+  transition: opacity 160ms ease-out;
+}
+
+.navbar-its:hover {
+  opacity: 1;
+}
+
+.navbar-its img {
+  width: auto;
+  height: 26px;
+}
+
+.its-chiaro {
+  display: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .its-scuro {
+    display: none;
+  }
+
+  :root:not([data-theme='dark']) .its-chiaro {
+    display: block;
+  }
+}
+
+:root[data-theme='light'] .its-scuro {
+  display: none;
+}
+
+:root[data-theme='light'] .its-chiaro {
+  display: block;
+}
+
+.navbar-tema {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-right: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease-out,
+    color 160ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.navbar-tema:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  box-shadow: var(--glow-sm);
+}
+
+.navbar-tema svg {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    opacity 260ms ease-out,
+    rotate 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    scale 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar-tema.is-dark .tema-luna,
+.navbar-tema.is-light .tema-sole {
+  opacity: 0;
+  rotate: -90deg;
+  scale: 0.5;
+}
+
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -96,13 +189,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .navbar-tema svg,
   .navbar-logo::before,
   .navbar-links a::after {
     transition: none;
   }
 }
 
+@media (max-width: 900px) {
+  .navbar-its {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
+  .navbar-tema {
+    width: 38px;
+    height: 38px;
+    margin-right: 0;
+  }
+
   .navbar {
     gap: 0.75rem;
     height: 64px;

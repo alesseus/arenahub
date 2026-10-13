@@ -156,14 +156,6 @@
   box-shadow: var(--glow-sm);
 }
 
-.arena-credito {
-  position: absolute;
-  right: var(--gutter);
-  bottom: 64px;
-  font-size: 0.75rem;
-  color: rgb(244 246 250 / 0.5);
-}
-
 .ticker {
   display: flex;
   align-items: stretch;
@@ -696,11 +688,6 @@
 
   .arena-azioni .btn {
     flex: 1 1 100%;
-  }
-
-  .arena-credito {
-    top: 12px;
-    bottom: auto;
   }
 
   .ticker {

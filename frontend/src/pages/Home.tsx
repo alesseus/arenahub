@@ -115,8 +115,6 @@ function Arena({ tornei, giochi, pronto }: { tornei: Torneo[]; giochi: Gioco[]; 
                 </div>
             </div>
 
-            <p className="arena-credito">Foto: Paul Chaloner, CC BY 2.0</p>
-
             <Ticker tornei={tornei} giochi={giochi} pronto={pronto} />
         </section>
     );

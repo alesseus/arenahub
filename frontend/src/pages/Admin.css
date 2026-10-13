@@ -309,10 +309,6 @@
   box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
 }
 
-.campo input[type='datetime-local'] {
-  color-scheme: dark;
-}
-
 .campo-corto {
   max-width: calc(50% - 0.5rem);
 }
@@ -503,12 +499,6 @@
   border-radius: var(--radius);
   background: linear-gradient(100deg, var(--surface) 30%, var(--surface-2) 50%, var(--surface) 70%) 0 0 / 300% 100%;
   animation: shimmer 1400ms ease-in-out infinite;
-}
-
-@media (prefers-color-scheme: light) {
-  .campo input[type='datetime-local'] {
-    color-scheme: light;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

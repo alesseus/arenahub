@@ -1,0 +1,27 @@
+.non-trovata {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: clamp(48px, 10vw, 120px) var(--gutter) 96px;
+}
+
+.non-trovata-codice {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 16vw, 9rem);
+  font-weight: 800;
+  line-height: 0.8;
+  color: var(--accent);
+  text-shadow: 0 0 32px rgb(34 199 224 / 0.45);
+}
+
+.non-trovata .page-title {
+  margin-bottom: 0;
+}
+
+.non-trovata-testo {
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-size: 1.125rem;
+}

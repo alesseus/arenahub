@@ -117,7 +117,7 @@
   width: 100%;
   padding: 0;
   overflow: hidden;
-  border: 1px solid var(--line-strong);
+  border: 1px solid rgb(34 199 224 / 0.4);
   border-radius: var(--radius);
   background: var(--surface-2);
   color: var(--text);
@@ -127,7 +127,8 @@
 
 .tab-partita.is-conclusa,
 .tab-partita.is-libera {
-  border-color: rgb(34 199 224 / 0.45);
+  border-color: rgb(34 199 224 / 0.7);
+  box-shadow: var(--glow-sm);
 }
 
 button.tab-partita {
@@ -153,7 +154,7 @@ button.tab-partita:focus-visible {
 .tab-partita.is-anteprima,
 .tab-partita.is-futura {
   border-style: dashed;
-  border-color: var(--line-strong);
+  border-color: rgb(34 199 224 / 0.35);
   background: transparent;
 }
 
@@ -167,7 +168,7 @@ button.tab-partita:focus-visible {
 }
 
 .tab-giocatore + .tab-giocatore {
-  border-top: 1px solid var(--line-strong);
+  border-top: 1px solid rgb(34 199 224 / 0.22);
 }
 
 .tab-nome {
@@ -212,7 +213,7 @@ button.tab-partita:focus-visible {
 
 .tab-data {
   padding: 0.25rem 0.75rem;
-  border-top: 1px solid var(--line-strong);
+  border-top: 1px solid rgb(34 199 224 / 0.22);
   font-size: 0.8125rem;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;

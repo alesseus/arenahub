@@ -54,8 +54,8 @@
   margin-left: auto;
 }
 
-.navbar-links li:nth-last-child(2) {
-  margin-right: auto;
+.navbar-destra {
+  margin-left: auto;
 }
 
 .navbar-links a {
@@ -128,10 +128,6 @@
     right: 0.5rem;
   }
 
-  .navbar-links li:nth-last-child(2) {
-    margin-right: 0.25rem;
-  }
-
   .navbar-links .btn {
     padding: 0 0.875rem;
   }
@@ -144,5 +140,21 @@
 
   .navbar-links li:nth-child(2) {
     margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logo {
+    gap: 0;
+    font-size: 0;
+  }
+
+  .navbar-logo::before {
+    width: 22px;
+    height: 22px;
+  }
+
+  .navbar-links .btn {
+    padding: 0 0.75rem;
   }
 }

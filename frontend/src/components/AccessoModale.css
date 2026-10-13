@@ -1,0 +1,71 @@
+.accesso-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.accesso-riga {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.campo span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.campo input {
+  min-height: 46px;
+  padding: 0 0.875rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  transition: border-color 160ms ease-out, box-shadow 160ms ease-out;
+}
+
+.campo input:hover {
+  border-color: var(--text-muted);
+}
+
+.campo input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+}
+
+.accesso-invia {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 0.25rem;
+}
+
+.accesso-cambio {
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.accesso-cambio button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-text);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .accesso-riga {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router';
 import { annullaIscrizione, ErroreApi, getTorneo, iscriviti } from '../api';
 import Modale from '../components/Modale';
 import { dataBreve, dataLunga, fotoValida } from '../formato';
-import { getUtente } from '../sessione';
 import type { Torneo } from '../types';
+import { useUtente } from '../utente-context';
 import './DettaglioTorneo.css';
 
 type TipoModale = 'iscrizione' | 'annullamento' | null;
@@ -17,7 +17,8 @@ const nomiStato = {
 
 function DettaglioTorneo() {
     const { id = '' } = useParams();
-    const utente = getUtente();
+    const { utente, apriAccesso } = useUtente();
+    const email = utente?.email;
     const [torneo, setTorneo] = useState<Torneo | null>(null);
     const [caricamento, setCaricamento] = useState(true);
     const [nonTrovato, setNonTrovato] = useState(false);
@@ -37,7 +38,7 @@ function DettaglioTorneo() {
                 }
             })
             .finally(() => setCaricamento(false));
-    }, [id]);
+    }, [id, email]);
 
     function apriModale(tipo: TipoModale) {
         setErroreAzione('');
@@ -112,7 +113,7 @@ function DettaglioTorneo() {
             return (
                 <div className="azione">
                     <p className="azione-testo">Accedi per iscriverti a questo torneo</p>
-                    <button className="btn btn-primary">Accedi</button>
+                    <button className="btn btn-primary" onClick={() => apriAccesso()}>Accedi</button>
                 </div>
             );
         }

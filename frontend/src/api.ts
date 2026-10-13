@@ -1,4 +1,4 @@
-import { getUtente } from './sessione';
+import { getUtente, type Utente } from './sessione';
 import type { Iscrizione, Torneo } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -45,4 +45,22 @@ export function iscriviti(id: number) {
 
 export function annullaIscrizione(id: number) {
     return chiama<void>(`/api/tornei/${id}/iscrizioni`, { method: 'DELETE' });
+}
+
+export function login(email: string, password: string) {
+    return chiama<Utente>('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+    });
+}
+
+export function registrazione(dati: { nome: string; cognome: string; email: string; password: string }) {
+    return chiama<Utente>('/api/auth/registrazione', {
+        method: 'POST',
+        body: JSON.stringify(dati),
+    });
+}
+
+export function logout() {
+    return chiama<void>('/api/auth/logout', { method: 'POST' });
 }

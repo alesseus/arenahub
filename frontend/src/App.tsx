@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Tornei from "./pages/Tornei";
+import DettaglioTorneo from "./pages/DettaglioTorneo";
 
 function App () {
   return (
@@ -10,6 +11,7 @@ function App () {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tornei" element={<Tornei />} />
+        <Route path="/tornei/:id" element={<DettaglioTorneo />} />
       </Routes>
     </BrowserRouter>
   );

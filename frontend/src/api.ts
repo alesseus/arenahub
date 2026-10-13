@@ -1,11 +1,48 @@
-import type { Torneo } from './types';
+import { getUtente } from './sessione';
+import type { Iscrizione, Torneo } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getTornei(filtri = ''): Promise<Torneo[]> {
-    const risposta = await fetch(`${API_URL}/api/tornei${filtri}`);
+export class ErroreApi extends Error {
+    stato: number;
+
+    constructor(stato: number, messaggio: string) {
+        super(messaggio);
+        this.stato = stato;
+    }
+}
+
+async function chiama<T>(percorso: string, opzioni: RequestInit = {}): Promise<T> {
+    const utente = getUtente();
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (utente) {
+        headers['Utente-Loggato'] = utente.email;
+    }
+
+    const risposta = await fetch(`${API_URL}${percorso}`, { ...opzioni, headers });
+
     if (!risposta.ok) {
-        throw new Error('Impossibile caricare i tornei');
+        const corpo = await risposta.json().catch(() => null);
+        throw new ErroreApi(risposta.status, corpo?.errore ?? 'Qualcosa è andato storto');
+    }
+    if (risposta.status === 204) {
+        return undefined as T;
     }
     return risposta.json();
+}
+
+export function getTornei(filtri = '') {
+    return chiama<Torneo[]>(`/api/tornei${filtri}`);
+}
+
+export function getTorneo(id: string) {
+    return chiama<Torneo>(`/api/tornei/${id}`);
+}
+
+export function iscriviti(id: number) {
+    return chiama<Iscrizione>(`/api/tornei/${id}/iscrizioni`, { method: 'POST' });
+}
+
+export function annullaIscrizione(id: number) {
+    return chiama<void>(`/api/tornei/${id}/iscrizioni`, { method: 'DELETE' });
 }

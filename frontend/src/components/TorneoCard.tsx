@@ -1,21 +1,11 @@
 import { Link } from 'react-router';
+import { dataBreve, fotoValida } from '../formato';
 import type { Torneo } from '../types';
 import './TorneoCard.css';
 
 type Props = {
     torneo: Torneo;
 };
-
-function formattaData(data: string) {
-    const d = new Date(data);
-    const giorno = d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
-    const ora = d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-    return `${giorno}, ${ora}`;
-}
-
-function fotoValida(path: string | null | undefined): path is string {
-    return !!path && (path.startsWith('/') || path.startsWith('http'));
-}
 
 function TorneoCard({ torneo }: Props) {
     const gioco = torneo.gioco;
@@ -41,7 +31,7 @@ function TorneoCard({ torneo }: Props) {
             <div className="torneo-body">
                 <p className="torneo-gioco">{gioco?.nome ?? 'Gioco'}</p>
                 <h4 className="torneo-nome">{torneo.nome}</h4>
-                <p className="torneo-data">{formattaData(torneo.data_ora_inizio)}</p>
+                <p className="torneo-data">{dataBreve(torneo.data_ora_inizio)}</p>
 
                 <div className="torneo-footer">
                     <p className={spento ? 'torneo-posti is-completo' : 'torneo-posti'}>

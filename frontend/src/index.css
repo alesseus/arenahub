@@ -16,6 +16,8 @@
   --accent-hover: #4fd6ea;
   --on-accent: #061418;
   --accent-text: #4fd6ea;
+  --danger: #f87171;
+  --warning: #fbbf24;
 
   --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -8px rgb(0 0 0 / 0.5);
 
@@ -45,6 +47,8 @@
     --accent-hover: #0fa3bb;
     --on-accent: #041014;
     --accent-text: #0b7385;
+    --danger: #b91c1c;
+    --warning: #a16207;
     --shadow: 0 1px 2px rgb(16 20 30 / 0.06), 0 8px 24px -10px rgb(16 20 30 / 0.18);
     color-scheme: light;
   }
@@ -61,6 +65,8 @@
   --accent-hover: #0fa3bb;
   --on-accent: #041014;
   --accent-text: #0b7385;
+  --danger: #b91c1c;
+  --warning: #a16207;
   --shadow: 0 1px 2px rgb(16 20 30 / 0.06), 0 8px 24px -10px rgb(16 20 30 / 0.18);
   color-scheme: light;
 }

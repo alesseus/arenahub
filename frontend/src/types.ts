@@ -16,4 +16,19 @@ export type Torneo = {
     iscritti: number;
     posti_liberi: number;
     in_attesa: number;
+    mio_stato?: MioStato;
+};
+
+export type MioStato = {
+    iscritto: boolean;
+    attesa: boolean;
+    posizione_attesa: number | null;
+};
+
+export type Iscrizione = {
+    id_torneo: number;
+    email: string;
+    data_iscrizione: string;
+    attesa: boolean;
+    posizione_attesa: number | null;
 };

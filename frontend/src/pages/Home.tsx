@@ -1,6 +1,13 @@
+import { useEffect } from 'react';
 import './Home.css';
 
 function Home() {
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_API_URL}/api/tornei?stato=aperto&limit=3`)
+            .then((risposta) => risposta.json())
+            .then((dati) => console.log(dati));
+    }, []);
+
     return (
         <main className="home">
             <h1 className="sr-only">HOME</h1>

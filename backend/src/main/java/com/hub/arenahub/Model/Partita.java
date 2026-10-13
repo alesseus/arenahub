@@ -1,8 +1,10 @@
 package com.hub.arenahub.Model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hub.arenahub.Dto.PartecipantePartita;
 import com.hub.arenahub.Dto.RisTorneo;
 
 import jakarta.persistence.Column;
@@ -29,6 +31,8 @@ public class Partita {
 
 	@Transient
 	private RisTorneo torneo;
+	@Transient
+	private List<PartecipantePartita> partecipazioni;
 
 	public Partita() {
 	}
@@ -79,6 +83,14 @@ public class Partita {
 
 	public void setTorneo(RisTorneo torneo) {
 		this.torneo = torneo;
+	}
+
+	public List<PartecipantePartita> getPartecipazioni() {
+		return partecipazioni;
+	}
+
+	public void setPartecipazioni(List<PartecipantePartita> partecipazioni) {
+		this.partecipazioni = partecipazioni;
 	}
 
 }

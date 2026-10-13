@@ -23,6 +23,18 @@ public class PartiteSrv {
 				.collect(Collectors.toList());
 	}
 
+	public List<Partita> getPartiteTorneo(Long id_torneo) {
+		return getAllPartite().stream()
+				.filter(p -> p.getId_torneo().equals(id_torneo))
+				.collect(Collectors.toList());
+	}
+
+	public Partita addPartita(Partita nuova) {
+		nuova.setId_partita(null);
+		nuova.setStato("programmata");
+		return partiteRepo.save(nuova);
+	}
+
 	public Optional<Partita> vediPartita(Long id_partita) {
 		return partiteRepo.findById(id_partita);
 	}

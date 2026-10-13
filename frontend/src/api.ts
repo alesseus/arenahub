@@ -1,5 +1,5 @@
 import { getUtente, type Utente } from './sessione';
-import type { Iscrizione, Torneo, TorneoMio } from './types';
+import type { DatiTorneo, Gioco, Iscrizione, IscrittiTorneo, Torneo, TorneoMio } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -74,4 +74,33 @@ export function modificaProfilo(dati: { nome: string; cognome: string }) {
         method: 'PATCH',
         body: JSON.stringify(dati),
     });
+}
+
+export function getGiochi() {
+    return chiama<Gioco[]>('/api/giochi');
+}
+
+export function creaTorneo(dati: DatiTorneo) {
+    return chiama<Torneo>('/api/tornei', {
+        method: 'POST',
+        body: JSON.stringify(dati),
+    });
+}
+
+export function modificaTorneo(id: number, dati: DatiTorneo) {
+    return chiama<Torneo>(`/api/tornei/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(dati),
+    });
+}
+
+export function cambiaStato(id: number, stato: 'chiuso' | 'concluso') {
+    return chiama<{ id_torneo: number; stato: string }>(`/api/tornei/${id}/stato`, {
+        method: 'PUT',
+        body: JSON.stringify({ stato }),
+    });
+}
+
+export function getIscritti(id: number) {
+    return chiama<IscrittiTorneo>(`/api/tornei/${id}/iscritti`);
 }

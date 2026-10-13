@@ -32,7 +32,7 @@ function DettaglioTorneo() {
     }
 
     return (
-        <Modale aperta={id !== null} larga etichetta="Dettaglio torneo" onChiudi={chiudi}>
+        <Modale aperta={id !== null} larga piena etichetta="Dettaglio torneo" onChiudi={chiudi}>
             {id && <ContenutoDettaglio key={id} id={id} onChiudi={chiudi} />}
         </Modale>
     );

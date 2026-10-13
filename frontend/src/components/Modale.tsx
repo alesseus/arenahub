@@ -6,11 +6,12 @@ type Props = {
     titolo?: string;
     etichetta?: string;
     larga?: boolean;
+    piena?: boolean;
     onChiudi: () => void;
     children: ReactNode;
 };
 
-function Modale({ aperta, titolo, etichetta, larga = false, onChiudi, children }: Props) {
+function Modale({ aperta, titolo, etichetta, larga = false, piena = false, onChiudi, children }: Props) {
     const ref = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -23,7 +24,7 @@ function Modale({ aperta, titolo, etichetta, larga = false, onChiudi, children }
     return (
         <dialog
             ref={ref}
-            className={larga ? 'modale is-larga' : 'modale'}
+            className={['modale', larga && 'is-larga', piena && 'is-piena'].filter(Boolean).join(' ')}
             aria-label={etichetta ?? titolo}
             onClose={onChiudi}
             onClick={(e) => e.target === ref.current && onChiudi()}

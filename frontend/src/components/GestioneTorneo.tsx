@@ -22,15 +22,10 @@ const conferme = {
         testo: 'Nessuno potrà più iscriversi o annullare. Non si torna indietro.',
         bottone: 'Sì, chiudi',
     },
-    concluso: {
-        domanda: 'Concludere il torneo?',
-        testo: 'Il torneo passa tra quelli conclusi. Non si torna indietro.',
-        bottone: 'Sì, concludi',
-    },
 };
 
 function GestioneTorneo({ torneo, onModifica, onIscritti, onCambiato }: Props) {
-    const [daConfermare, setDaConfermare] = useState<'chiuso' | 'concluso' | null>(null);
+    const [daConfermare, setDaConfermare] = useState<'chiuso' | null>(null);
     const [inCorso, setInCorso] = useState(false);
     const [errore, setErrore] = useState('');
     const indice = passi.findIndex((p) => p.stato === torneo.stato);
@@ -74,6 +69,10 @@ function GestioneTorneo({ torneo, onModifica, onIscritti, onCambiato }: Props) {
                 ))}
             </ol>
 
+            {torneo.stato === 'chiuso' && !daConfermare && (
+                <p className="gestione-nota">Vai su Modifica per gestire il tabellone. Il torneo si conclude dopo la finale.</p>
+            )}
+
             {errore && <p className="modale-errore" role="alert">{errore}</p>}
 
             {daConfermare ? (
@@ -90,14 +89,11 @@ function GestioneTorneo({ torneo, onModifica, onIscritti, onCambiato }: Props) {
             ) : (
                 <div className="modale-azioni gestione-azioni">
                     <button className="btn btn-ghost" onClick={onIscritti}>Iscritti</button>
-                    {torneo.stato !== 'concluso' && (
-                        <button className="btn btn-ghost" onClick={onModifica}>Modifica</button>
-                    )}
+                    <button className={torneo.stato === 'chiuso' ? 'btn btn-primary' : 'btn btn-ghost'} onClick={onModifica}>
+                        {torneo.stato === 'concluso' ? 'Tabellone' : 'Modifica'}
+                    </button>
                     {torneo.stato === 'aperto' && (
                         <button className="btn btn-primary" onClick={() => setDaConfermare('chiuso')}>Chiudi iscrizioni</button>
-                    )}
-                    {torneo.stato === 'chiuso' && (
-                        <button className="btn btn-primary" onClick={() => setDaConfermare('concluso')}>Concludi</button>
                     )}
                 </div>
             )}

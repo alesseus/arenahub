@@ -65,3 +65,21 @@ export type IscrittiTorneo = {
     iscritti: Iscritto[];
     lista_attesa: Iscritto[];
 };
+
+export type Partecipazione = {
+    email: string;
+    nome: string | null;
+    cognome: string | null;
+    punteggio: number | null;
+    posizione: number | null;
+    qualificato: boolean;
+};
+
+export type Partita = {
+    id_partita: number;
+    id_torneo: number;
+    turno: number;
+    data_ora: string;
+    stato: 'programmata' | 'conclusa';
+    partecipazioni?: Partecipazione[];
+};

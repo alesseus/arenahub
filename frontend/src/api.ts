@@ -1,5 +1,5 @@
 import { getUtente, type Utente } from './sessione';
-import type { DatiTorneo, Gioco, Iscrizione, IscrittiTorneo, Torneo, TorneoMio } from './types';
+import type { DatiTorneo, Gioco, Iscrizione, IscrittiTorneo, Partita, Torneo, TorneoMio } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -103,4 +103,25 @@ export function cambiaStato(id: number, stato: 'chiuso' | 'concluso') {
 
 export function getIscritti(id: number) {
     return chiama<IscrittiTorneo>(`/api/tornei/${id}/iscritti`);
+}
+
+export function getPartite(id: number) {
+    return chiama<Partita[]>(`/api/tornei/${id}/partite`);
+}
+
+export function creaPartita(id: number, dati: { turno: number; data_ora: string; partecipazioni: { email: string }[] }) {
+    return chiama<Partita>(`/api/tornei/${id}/partite`, {
+        method: 'POST',
+        body: JSON.stringify(dati),
+    });
+}
+
+export function salvaRisultati(
+    idPartita: number,
+    partecipazioni: { email: string; punteggio: number | null; posizione: number; qualificato: boolean }[],
+) {
+    return chiama<Partita>(`/api/partite/${idPartita}/risultati`, {
+        method: 'PUT',
+        body: JSON.stringify({ partecipazioni }),
+    });
 }

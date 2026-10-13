@@ -13,6 +13,10 @@
   width: min(780px, calc(100% - 32px));
 }
 
+.modale.is-enorme {
+  width: min(1120px, calc(100% - 32px));
+}
+
 .modale.is-piena .modale-contenuto {
   padding: 0;
 }

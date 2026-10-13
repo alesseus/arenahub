@@ -1,0 +1,277 @@
+.tab {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.tab-testa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.tab-torneo {
+  color: var(--text-muted);
+}
+
+.tab-torneo strong {
+  color: var(--text);
+}
+
+.tab-scorri {
+  overflow-x: auto;
+  margin: 0 -0.25rem;
+  padding: 0.25rem 0.25rem 0.75rem;
+}
+
+.tab-colonne {
+  display: grid;
+  gap: 2.5rem;
+  min-width: min-content;
+}
+
+.tab-colonna {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tab-turno {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.125rem;
+  color: var(--text-muted);
+}
+
+.tab-partite {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.tab-partita {
+  position: relative;
+  display: grid;
+  width: 100%;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+}
+
+.tab-colonna:not(:last-child) .tab-partita::after,
+.tab-colonna:not(:first-child) .tab-partita::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 1.25rem;
+  height: 2px;
+  background: var(--line);
+}
+
+.tab-colonna:not(:last-child) .tab-partita::after {
+  right: calc(-1.25rem - 1px);
+}
+
+.tab-colonna:not(:first-child) .tab-partita::before {
+  left: calc(-1.25rem - 1px);
+}
+
+.tab-colonna:not(:last-child) .tab-partita.is-conclusa::after {
+  background: var(--accent);
+}
+
+button.tab-partita {
+  cursor: pointer;
+  transition: border-color 160ms ease-out, box-shadow 160ms ease-out;
+}
+
+button.tab-partita:hover {
+  border-color: var(--accent);
+}
+
+button.tab-partita:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+}
+
+.tab-partita.is-scelta {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+}
+
+.tab-partita.is-anteprima,
+.tab-partita.is-futura {
+  border-style: dashed;
+  background: transparent;
+}
+
+.tab-giocatore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 40px;
+  padding: 0 0.75rem;
+}
+
+.tab-giocatore + .tab-giocatore {
+  border-top: 1px solid var(--line);
+}
+
+.tab-nome {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tab-punti {
+  min-width: 2rem;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.tab-giocatore.is-vincitore {
+  background: rgb(34 199 224 / 0.1);
+}
+
+.tab-giocatore.is-vincitore .tab-punti {
+  color: var(--accent-text);
+}
+
+.tab-giocatore.is-perdente {
+  color: var(--text-muted);
+}
+
+.tab-giocatore.is-perdente .tab-nome {
+  font-weight: 500;
+}
+
+.tab-giocatore.is-vuoto {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.tab-data {
+  padding: 0.25rem 0.75rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tab-data::first-letter {
+  text-transform: uppercase;
+}
+
+.tab-pannello {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.tab-pannello-titolo {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tab-pannello-titolo::first-letter,
+.tab-nota::first-letter {
+  text-transform: uppercase;
+}
+
+.tab-punteggi {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.tab-riga-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.tab-riga-form .campo {
+  flex: 1 1 240px;
+}
+
+.tab-riga-form .btn {
+  min-height: 46px;
+}
+
+.tab-nota {
+  color: var(--text-muted);
+}
+
+.tab-campione {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(115deg, transparent 0 70%, rgb(34 199 224 / 0.1) 70% 76%, transparent 76%),
+    rgb(34 199 224 / 0.08);
+}
+
+.tab-campione-etichetta {
+  font-weight: 700;
+  color: var(--accent-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.875rem;
+}
+
+.tab-campione-nome {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.tab-campione .gestione-conferma {
+  justify-self: stretch;
+}
+
+@media (max-width: 600px) {
+  .tab-punteggi {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-colonne {
+    gap: 2rem;
+  }
+
+  .tab-colonna:not(:last-child) .tab-partita::after {
+    right: calc(-1rem - 1px);
+    width: 1rem;
+  }
+
+  .tab-colonna:not(:first-child) .tab-partita::before {
+    left: calc(-1rem - 1px);
+    width: 1rem;
+  }
+}

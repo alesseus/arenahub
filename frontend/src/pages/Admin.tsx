@@ -4,12 +4,13 @@ import FormTorneo from '../components/FormTorneo';
 import GestioneTorneo from '../components/GestioneTorneo';
 import IscrittiTorneo from '../components/IscrittiTorneo';
 import Modale from '../components/Modale';
+import Tabellone from '../components/Tabellone';
 import { dataBreve } from '../formato';
 import type { Torneo } from '../types';
 import { useUtente } from '../utente-context';
 import './Admin.css';
 
-type Vista = 'nuovo' | 'modifica' | 'gestione' | 'iscritti';
+type Vista = 'nuovo' | 'modifica' | 'gestione' | 'iscritti' | 'tabellone';
 type Filtro = 'tutti' | Torneo['stato'];
 
 const nomiStato = {
@@ -30,6 +31,7 @@ const titoli = {
     modifica: 'Modifica torneo',
     gestione: 'Gestione torneo',
     iscritti: 'Iscritti',
+    tabellone: 'Tabellone',
 };
 
 function Admin() {
@@ -88,8 +90,8 @@ function Admin() {
                 <FormTorneo
                     key={scelto.id_torneo}
                     torneo={scelto}
-                    onSalvato={() => { carica(); setVista('gestione'); }}
-                    onAnnulla={() => setVista('gestione')}
+                    onSalvato={() => { carica(); setVista('tabellone'); }}
+                    onAnnulla={() => setVista('tabellone')}
                 />
             );
         }
@@ -98,8 +100,18 @@ function Admin() {
                 <GestioneTorneo
                     key={scelto.id_torneo}
                     torneo={scelto}
-                    onModifica={() => setVista('modifica')}
+                    onModifica={() => setVista('tabellone')}
                     onIscritti={() => setVista('iscritti')}
+                    onCambiato={carica}
+                />
+            );
+        }
+        if (vista === 'tabellone') {
+            return (
+                <Tabellone
+                    key={scelto.id_torneo}
+                    torneo={scelto}
+                    onModificaDati={() => setVista('modifica')}
                     onCambiato={carica}
                 />
             );
@@ -186,6 +198,7 @@ function Admin() {
                 aperta={vista !== null}
                 titolo={vista ? titoli[vista] : undefined}
                 larga={vista === 'nuovo' || vista === 'modifica' || vista === 'iscritti'}
+                enorme={vista === 'tabellone'}
                 onChiudi={chiudi}
             >
                 {contenutoModale()}

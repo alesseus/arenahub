@@ -1,6 +1,7 @@
 package com.hub.arenahub.Controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hub.arenahub.Dto.GiocatorePartita;
 import com.hub.arenahub.Dto.NuovaPartitaRequest;
+import com.hub.arenahub.Dto.PartecipantePartita;
 import com.hub.arenahub.Model.Iscrizione;
 import com.hub.arenahub.Model.Partecipazione;
 import com.hub.arenahub.Model.Partita;
@@ -48,6 +51,33 @@ public class PartitaTorneoController {
 
 	@Autowired
 	private UtentiSrv utentiSrv;
+
+	@GetMapping("/{id_torneo}/partite")
+	public ResponseEntity<?> partiteTorneo(@PathVariable Long id_torneo) {
+		if (torneiSrv.vediTorneo(id_torneo).isEmpty()) {
+			return errore(HttpStatus.NOT_FOUND, "Torneo non trovato");
+		}
+
+		List<Partita> partite = partiteSrv.getPartiteTorneo(id_torneo);
+		for (Partita partita : partite) {
+			List<PartecipantePartita> partecipanti = new ArrayList<>();
+			for (Partecipazione p : partecipazioniSrv.getPartecipazioniPartita(partita.getId_partita())) {
+				Optional<Utente> giocatore = utentiSrv.vediUtente(p.getEmail());
+				partecipanti.add(new PartecipantePartita(
+						p.getEmail(),
+						giocatore.map(Utente::getNome).orElse(null),
+						giocatore.map(Utente::getCognome).orElse(null),
+						p.getPunteggio(),
+						p.getPosizione(),
+						p.isQualificato()));
+			}
+			partecipanti.sort(Comparator.comparing(PartecipantePartita::getPosizione,
+					Comparator.nullsLast(Comparator.naturalOrder()))
+					.thenComparing(PartecipantePartita::getEmail));
+			partita.setPartecipazioni(partecipanti);
+		}
+		return ResponseEntity.ok(partite);
+	}
 
 	@PostMapping("/{id_torneo}/partite")
 	public ResponseEntity<?> creaPartita(@PathVariable Long id_torneo, @RequestBody NuovaPartitaRequest request,

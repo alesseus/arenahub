@@ -3,6 +3,7 @@ package com.hub.arenahub.Controller;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hub.arenahub.Dto.GiocatorePartita;
 import com.hub.arenahub.Dto.NuovaPartitaRequest;
 import com.hub.arenahub.Dto.PartecipantePartita;
+import com.hub.arenahub.Dto.Classifica;
 import com.hub.arenahub.Model.Iscrizione;
 import com.hub.arenahub.Model.Partecipazione;
 import com.hub.arenahub.Model.Partita;
 import com.hub.arenahub.Model.Torneo;
 import com.hub.arenahub.Model.Utente;
+import com.hub.arenahub.Services.GiochiSrv;
 import com.hub.arenahub.Services.IscrizioniSrv;
 import com.hub.arenahub.Services.PartecipazioniSrv;
 import com.hub.arenahub.Services.PartiteSrv;
@@ -51,6 +54,9 @@ public class PartitaTorneoController {
 
 	@Autowired
 	private UtentiSrv utentiSrv;
+
+	@Autowired
+	private GiochiSrv giochiSrv;
 
 	@GetMapping("/{id_torneo}/partite")
 	public ResponseEntity<?> partiteTorneo(@PathVariable Long id_torneo) {
@@ -162,6 +168,51 @@ public class PartitaTorneoController {
 		}
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvata);
+	}
+
+	@GetMapping("/{id_torneo}/classifica")
+	public ResponseEntity<?> classifica(@PathVariable Long id_torneo) {
+		Optional<Torneo> torneo = torneiSrv.vediTorneo(id_torneo);
+		if (torneo.isEmpty()) {
+			return errore(HttpStatus.NOT_FOUND, "Torneo non trovato");
+		}
+
+		Map<String, Long> punti = new LinkedHashMap<>();
+		for (Partita partita : partiteSrv.getPartiteTorneo(id_torneo)) {
+			if (!"conclusa".equals(partita.getStato())) {
+				continue;
+			}
+			for (Partecipazione p : partecipazioniSrv.getPartecipazioniPartita(partita.getId_partita())) {
+				long punteggio = p.getPunteggio() != null ? p.getPunteggio() : 0;
+				punti.merge(p.getEmail(), punteggio, Long::sum);
+			}
+		}
+
+		List<Classifica> classifica = new ArrayList<>();
+		for (Map.Entry<String, Long> voce : punti.entrySet()) {
+			Optional<Utente> giocatore = utentiSrv.vediUtente(voce.getKey());
+			classifica.add(new Classifica(
+					voce.getKey(),
+					giocatore.map(Utente::getNome).orElse(null),
+					giocatore.map(Utente::getCognome).orElse(null),
+					voce.getValue()));
+		}
+		classifica.sort(Comparator.comparing(Classifica::getPunteggio).reversed()
+				.thenComparing(Classifica::getEmail));
+		for (int i = 0; i < classifica.size(); i++) {
+			boolean pariMerito = i > 0 && classifica.get(i).getPunteggio() == classifica.get(i - 1).getPunteggio();
+			classifica.get(i).setPosizione(pariMerito ? classifica.get(i - 1).getPosizione() : i + 1);
+		}
+
+		Map<String, Object> datiTorneo = new LinkedHashMap<>();
+		datiTorneo.put("id_torneo", torneo.get().getId_torneo());
+		datiTorneo.put("nome", torneo.get().getNome());
+		datiTorneo.put("gioco", giochiSrv.vediGioco(torneo.get().getId_gioco()).orElse(null));
+
+		Map<String, Object> risposta = new LinkedHashMap<>();
+		risposta.put("torneo", datiTorneo);
+		risposta.put("classifica", classifica);
+		return ResponseEntity.ok(risposta);
 	}
 
 	private ResponseEntity<?> errore(HttpStatus status, String messaggio) {

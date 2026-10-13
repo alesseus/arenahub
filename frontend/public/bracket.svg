@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round">
+  <g>
+    <rect x="1.5" y="9" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="59" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="109" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="159" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="209" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="259" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="309" width="118" height="32" rx="4"/>
+    <rect x="1.5" y="359" width="118" height="32" rx="4"/>
+
+    <rect x="180" y="34" width="118" height="32" rx="4"/>
+    <rect x="180" y="134" width="118" height="32" rx="4"/>
+    <rect x="180" y="234" width="118" height="32" rx="4"/>
+    <rect x="180" y="334" width="118" height="32" rx="4"/>
+
+    <rect x="360" y="84" width="118" height="32" rx="4"/>
+    <rect x="360" y="284" width="118" height="32" rx="4"/>
+
+    <rect x="540" y="184" width="118" height="32" rx="4"/>
+  </g>
+  <path d="M120 25H150V75H120M150 50H180M120 125H150V175H120M150 150H180M120 225H150V275H120M150 250H180M120 325H150V375H120M150 350H180"/>
+  <path d="M298 50H330V150H298M330 100H360M298 250H330V350H298M330 300H360"/>
+  <path d="M478 100H510V300H478M510 200H540"/>
+  <g stroke-width="6" stroke-linecap="round">
+    <path d="M16 25H78M16 75H64M16 125H86M16 175H58M16 225H74M16 275H90M16 325H62M16 375H80"/>
+    <path d="M195 50H251M195 150H271M195 250H243M195 350H263"/>
+    <path d="M375 100H445M375 300H425"/>
+  </g>
+</svg>

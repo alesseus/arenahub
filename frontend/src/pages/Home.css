@@ -1,0 +1,241 @@
+.home {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1.5rem;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: clamp(12px, 2vw, 24px) var(--gutter) 96px;
+}
+
+.hero {
+  grid-column: 1 / -1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+  min-height: clamp(440px, 66svh, 640px);
+  padding: clamp(28px, 5vw, 64px);
+  border-radius: calc(var(--radius) * 2);
+  background: var(--photo-ground);
+  color: var(--on-photo);
+  box-shadow: var(--shadow);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(10 12 17 / 0.9) 0%, rgb(10 12 17 / 0.62) 40%, rgb(10 12 17 / 0.05) 75%),
+    linear-gradient(0deg, rgb(10 12 17 / 0.85) 0%, transparent 50%),
+    url('/img/hero-player.webp') 70% 35% / cover no-repeat;
+  animation: hero-photo 1800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--accent);
+  transform-origin: left center;
+  animation: sweep 1000ms cubic-bezier(0.65, 0, 0.35, 1) 900ms both;
+}
+
+.hero-title {
+  max-width: 12ch;
+  font-size: clamp(3.25rem, 8vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  animation: rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 350ms both;
+}
+
+.hero-text {
+  max-width: 36ch;
+  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  color: var(--on-photo-muted);
+  animation: rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 550ms both;
+}
+
+@keyframes hero-photo {
+  from {
+    transform: scale(1.12);
+    filter: blur(12px) brightness(0.35);
+  }
+  to {
+    transform: scale(1);
+    filter: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 -20% 0);
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.upcoming {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: clamp(48px, 7vw, 80px);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.home-cta {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(48px, 7vw, 80px);
+}
+
+.empty-state {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: clamp(240px, 30vw, 320px);
+  padding: clamp(24px, 4vw, 48px);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  background:
+    linear-gradient(90deg, rgb(10 12 17 / 0.94) 0%, rgb(10 12 17 / 0.82) 45%, rgb(10 12 17 / 0.55) 100%),
+    url('/img/torneo-pubblico.webp') center 40% / cover no-repeat,
+    var(--photo-ground);
+  color: var(--on-photo);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.empty-state::before,
+.empty-state::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: clamp(20px, 4vw, 48px);
+  width: min(46%, 460px);
+  aspect-ratio: 680 / 400;
+  translate: 0 -50%;
+  -webkit-mask: var(--bracket-mask) no-repeat center / contain;
+  mask: var(--bracket-mask) no-repeat center / contain;
+}
+
+.empty-state::before {
+  --bracket-mask: url('/bracket.svg');
+  background: rgb(255 255 255 / 0.32);
+}
+
+.empty-state::after {
+  --bracket-mask: url('/bracket-win.svg');
+  background: var(--accent);
+}
+
+@supports (animation-timeline: view()) {
+  .empty-state::before,
+  .empty-state::after {
+    animation: bracket-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 20% cover 45%;
+  }
+
+  .empty-state::after {
+    animation-range: entry 60% cover 55%;
+  }
+}
+
+@keyframes bracket-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before,
+  .hero::after,
+  .hero-title,
+  .hero-text,
+  .empty-state::before,
+  .empty-state::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hero {
+    min-height: clamp(400px, 56svh, 560px);
+  }
+}
+
+@media (max-width: 640px) {
+  .home {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: clamp(440px, 78svh, 600px);
+  }
+
+  .hero::before {
+    background:
+      linear-gradient(0deg, rgb(10 12 17 / 0.95) 0%, rgb(10 12 17 / 0.7) 45%, rgb(10 12 17 / 0.1) 80%),
+      url('/img/hero-player.webp') 84% 30% / cover no-repeat;
+  }
+
+  .empty-state {
+    align-items: flex-end;
+    min-height: 300px;
+  }
+
+  .empty-state::before,
+  .empty-state::after {
+    top: 24px;
+    right: 16px;
+    width: calc(100% - 32px);
+    translate: none;
+  }
+
+  .home-cta {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: stretch;
+    margin-top: 1rem;
+  }
+}

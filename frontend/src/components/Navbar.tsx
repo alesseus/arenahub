@@ -1,13 +1,15 @@
+import './Navbar.css';
+
 function Navbar() {
     return (
-        <header>
-            <a href="/">ArenaHub</a>
+        <header className="navbar">
+            <a href="/" className="navbar-logo">ArenaHub</a>
             <nav>
-                <ul>
+                <ul className="navbar-links">
                     <li><a href="/">Home</a></li>
                     <li><a href="/tornei">Tornei</a></li>
                     <li><a href="/classifiche">Classifiche</a></li>
-                    <li><button>Accedi</button></li>
+                    <li><button className="btn btn-primary">Accedi</button></li>
                 </ul>
             </nav>
         </header>

@@ -1,20 +1,21 @@
+import './Home.css';
+
 function Home() {
     return (
-        <main>
-            <h1>HOME</h1>
+        <main className="home">
+            <h1 className="sr-only">HOME</h1>
 
-            <section>
-                <h2>Benvenuto su ArenaHub</h2>
-                <p>Trova un torneo, iscriviti e segui la classifica.</p>
+            <section className="hero">
+                <h2 className="hero-title">Benvenuto su ArenaHub</h2>
+                <p className="hero-text">Trova un torneo, iscriviti e segui la classifica.</p>
             </section>
 
-            <section>
-                <h3>Prossimi tornei</h3>
-                {/* Da sostituire con i tornei presi da GET /api/tornei */}
-                <p>Nessun torneo aperto</p>
+            <section className="upcoming">
+                <h3 className="section-title">Prossimi tornei</h3>
+                <p className="empty-state">Nessun torneo aperto</p>
             </section>
 
-            <a href="/tornei">Visualizza tornei</a>
+            <a href="/tornei" className="btn btn-primary home-cta">Visualizza tornei</a>
         </main>
     );
 }

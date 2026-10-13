@@ -76,7 +76,7 @@ function CalendarioTornei({ tornei }: Props) {
                         <div key={giorno.getDate()} className={classi.join(' ')}>
                             <span className="cal-numero">{giorno.getDate()}</span>
                             {eventi.map((t) => (
-                                <Link key={t.id_torneo} to={`/tornei/${t.id_torneo}`} className={`cal-evento is-${t.stato}`}>
+                                <Link key={t.id_torneo} to={{ search: `?torneo=${t.id_torneo}` }} className={`cal-evento is-${t.stato}`}>
                                     {t.nome}
                                 </Link>
                             ))}

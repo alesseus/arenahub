@@ -3,12 +3,14 @@ import './Modale.css';
 
 type Props = {
     aperta: boolean;
-    titolo: string;
+    titolo?: string;
+    etichetta?: string;
+    larga?: boolean;
     onChiudi: () => void;
     children: ReactNode;
 };
 
-function Modale({ aperta, titolo, onChiudi, children }: Props) {
+function Modale({ aperta, titolo, etichetta, larga = false, onChiudi, children }: Props) {
     const ref = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -21,12 +23,14 @@ function Modale({ aperta, titolo, onChiudi, children }: Props) {
     return (
         <dialog
             ref={ref}
-            className="modale"
+            className={larga ? 'modale is-larga' : 'modale'}
+            aria-label={etichetta ?? titolo}
             onClose={onChiudi}
             onClick={(e) => e.target === ref.current && onChiudi()}
         >
+            <button className="modale-chiudi" aria-label="Chiudi" onClick={onChiudi} />
             <div className="modale-contenuto">
-                <h2 className="modale-titolo">{titolo}</h2>
+                {titolo && <h2 className="modale-titolo">{titolo}</h2>}
                 {children}
             </div>
         </dialog>

@@ -5,9 +5,10 @@ import './TorneoCard.css';
 
 type Props = {
     torneo: Torneo;
+    risultati?: boolean;
 };
 
-function TorneoCard({ torneo }: Props) {
+function TorneoCard({ torneo, risultati = false }: Props) {
     const gioco = torneo.gioco;
     const foto = gioco?.path_foto;
     const completo = torneo.posti_liberi === 0;
@@ -38,7 +39,11 @@ function TorneoCard({ torneo }: Props) {
                         {testoPosti}
                         <span>{torneo.iscritti}/{torneo.posti_max} iscritti</span>
                     </p>
-                    <Link to={{ search: `?torneo=${torneo.id_torneo}` }} className="btn btn-ghost">Dettaglio</Link>
+                    {risultati ? (
+                        <Link to={{ search: `?classifica=${torneo.id_torneo}` }} className="btn btn-primary">Risultati</Link>
+                    ) : (
+                        <Link to={{ search: `?torneo=${torneo.id_torneo}` }} className="btn btn-ghost">Dettaglio</Link>
+                    )}
                 </div>
             </div>
         </article>

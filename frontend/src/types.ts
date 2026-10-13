@@ -83,3 +83,14 @@ export type Partita = {
     stato: 'programmata' | 'conclusa';
     partecipazioni?: Partecipazione[];
 };
+
+export type Classifica = {
+    torneo: { id_torneo: number; nome: string; gioco: Gioco | null };
+    classifica: {
+        posizione: number;
+        email: string;
+        nome: string | null;
+        cognome: string | null;
+        punteggio: number | null;
+    }[];
+};

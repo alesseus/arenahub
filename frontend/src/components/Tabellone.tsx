@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { cambiaStato, creaPartita, getIscritti, getPartite, salvaRisultati } from '../api';
+import { cambiaStato, creaPartita, ErroreApi, getIscritti, getPartite, salvaRisultati } from '../api';
 import { dataBreve } from '../formato';
 import type { Iscritto, Partecipazione, Partita, Torneo } from '../types';
 import './Tabellone.css';
@@ -56,7 +56,13 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
                 setIscritti(i.iscritti);
                 setErroreCarica('');
             })
-            .catch((e) => setErroreCarica(e instanceof Error ? e.message : 'Qualcosa è andato storto'));
+            .catch((e) => {
+                if (e instanceof ErroreApi && e.stato === 404) {
+                    setErroreCarica('il server non gestisce ancora le partite dei tornei.');
+                } else {
+                    setErroreCarica(e instanceof Error ? e.message : 'Qualcosa è andato storto');
+                }
+            });
     }, [id, versione]);
 
     if (erroreCarica) {

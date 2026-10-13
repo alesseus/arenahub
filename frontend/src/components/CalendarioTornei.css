@@ -1,0 +1,161 @@
+.calendario {
+  padding: clamp(16px, 3vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.cal-testa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cal-titolo {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+.cal-frecce {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cal-freccia {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 160ms ease-out, background-color 160ms ease-out;
+}
+
+.cal-freccia::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--text);
+  border-right: 2px solid var(--text);
+}
+
+.cal-freccia.is-prev::before {
+  transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.cal-freccia.is-next::before {
+  transform: translate(-70%, -50%) rotate(45deg);
+}
+
+.cal-freccia:hover {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.cal-griglia {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.cal-nome-giorno {
+  padding-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cal-casella {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 76px;
+  padding: 8px;
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.cal-casella.is-vuota {
+  background: transparent;
+}
+
+.cal-numero {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-casella.is-oggi .cal-numero {
+  color: var(--accent-text);
+}
+
+.cal-casella.has-eventi {
+  background: var(--surface-2);
+}
+
+.cal-casella.has-eventi .cal-numero {
+  color: var(--text);
+}
+
+.cal-evento {
+  display: block;
+  overflow: hidden;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: filter 160ms ease-out;
+}
+
+.cal-evento:hover {
+  filter: brightness(1.1);
+}
+
+.cal-evento.is-chiuso,
+.cal-evento.is-concluso {
+  background: var(--line);
+  color: var(--text);
+}
+
+.cal-nessuno {
+  margin-top: 1rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .cal-griglia {
+    gap: 3px;
+  }
+
+  .cal-casella {
+    align-items: center;
+    min-height: 52px;
+    padding: 6px 2px;
+  }
+
+  .cal-evento {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+  }
+}

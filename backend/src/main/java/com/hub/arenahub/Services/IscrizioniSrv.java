@@ -29,6 +29,12 @@ public class IscrizioniSrv {
 				.collect(Collectors.toList());
 	}
 
+	public List<Iscrizione> getIscrizioniUtente(String email) {
+		return iscrizioniRepo.findAll().stream()
+				.filter(i -> i.getEmail().equalsIgnoreCase(email))
+				.collect(Collectors.toList());
+	}
+
 	public List<Iscrizione> getIscritti(Long id_torneo) {
 		return getIscrizioniTorneo(id_torneo).stream()
 				.filter(i -> !i.isAttesa())

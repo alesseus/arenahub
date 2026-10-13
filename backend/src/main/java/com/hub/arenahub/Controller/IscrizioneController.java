@@ -39,7 +39,7 @@ public class IscrizioneController {
 
 	@PostMapping("/{id_torneo}/iscrizioni")
 	public ResponseEntity<?> iscrivi(@PathVariable Long id_torneo,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
@@ -52,7 +52,7 @@ public class IscrizioneController {
 			return errore(HttpStatus.CONFLICT, "Sei già iscritto a questo torneo");
 		}
 		if (!"aperto".equals(torneo.get().getStato())) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Iscrizioni chiuse");
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Iscrizioni chiuse");
 		}
 		Iscrizione nuova = iscrizioniSrv.addIscrizione(torneo.get(), utente.get().getEmail());
 		return ResponseEntity.status(HttpStatus.CREATED).body(nuova);
@@ -60,7 +60,7 @@ public class IscrizioneController {
 
 	@DeleteMapping("/{id_torneo}/iscrizioni")
 	public ResponseEntity<?> annulla(@PathVariable Long id_torneo,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
@@ -74,7 +74,7 @@ public class IscrizioneController {
 			return errore(HttpStatus.NOT_FOUND, "Iscrizione non trovata");
 		}
 		if (!"aperto".equals(torneo.get().getStato())) {
-			return errore(HttpStatus.UNPROCESSABLE_ENTITY, "Non è più possibile annullare l'iscrizione");
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Non è più possibile annullare l'iscrizione");
 		}
 		iscrizioniSrv.cancellaIscrizione(torneo.get(), iscrizione.get());
 		return ResponseEntity.noContent().build();
@@ -82,7 +82,7 @@ public class IscrizioneController {
 
 	@GetMapping("/{id_torneo}/iscritti")
 	public ResponseEntity<?> iscritti(@PathVariable Long id_torneo,
-			@RequestHeader(value = "X-Email", required = false) String email) {
+			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");

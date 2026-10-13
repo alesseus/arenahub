@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { cambiaStato, creaPartita, ErroreApi, getIscritti, getPartite, salvaRisultati } from '../api';
 import { dataBreve } from '../formato';
 import type { Iscritto, Partecipazione, Partita, Torneo } from '../types';
@@ -298,55 +298,88 @@ function Tabellone({ torneo, onModificaDati, onCambiato }: Props) {
 
             <div className="tab-scorri">
                 <div className="tab-colonne" style={{ gridTemplateColumns: `repeat(${colonne.length}, minmax(200px, 1fr))` }}>
-                    {colonne.map((c) => (
-                        <section key={c.turno} className="tab-colonna" aria-label={nomeTurno(c.turno, totaleTurni)}>
-                            <h3 className="tab-turno">{nomeTurno(c.turno, totaleTurni)}</h3>
-                            <div className="tab-partite">
-                                {c.partite.map((p) => {
-                                    const giocatori = p.partecipazioni ?? [];
-                                    const cliccabile = modificabile && p.stato !== 'conclusa' && giocatori.length > 1;
-                                    const classi = ['tab-partita', `is-${p.stato}`];
-                                    if (p.id_partita === scelta) classi.push('is-scelta');
-                                    const contenuto = (
-                                        <>
-                                            {riga(giocatori[0], p)}
-                                            {riga(giocatori[1], p)}
-                                            <span className="tab-data">{dataBreve(p.data_ora)}</span>
-                                        </>
-                                    );
-                                    return cliccabile ? (
-                                        <button key={p.id_partita} className={classi.join(' ')} onClick={() => scegli(p)}>
-                                            {contenuto}
-                                        </button>
-                                    ) : (
-                                        <div key={p.id_partita} className={classi.join(' ')}>{contenuto}</div>
-                                    );
-                                })}
-                                {c.liberi.map((g) => (
-                                    <div key={g.email} className="tab-partita is-libera">
-                                        <div className="tab-giocatore is-vincitore">
-                                            <span className="tab-nome">{g.nome}</span>
-                                        </div>
+                    {colonne.map((c) => {
+                        const carte: { chiave: string; fatta: boolean; nodo: ReactNode }[] = [];
+                        for (const p of c.partite) {
+                            const giocatori = p.partecipazioni ?? [];
+                            const cliccabile = modificabile && p.stato !== 'conclusa' && giocatori.length > 1;
+                            const classi = ['tab-partita', `is-${p.stato}`];
+                            if (p.id_partita === scelta) classi.push('is-scelta');
+                            const contenuto = (
+                                <>
+                                    {riga(giocatori[0], p)}
+                                    {riga(giocatori[1], p)}
+                                    <span className="tab-data">{dataBreve(p.data_ora)}</span>
+                                </>
+                            );
+                            carte.push({
+                                chiave: `p${p.id_partita}`,
+                                fatta: p.stato === 'conclusa',
+                                nodo: cliccabile ? (
+                                    <button className={classi.join(' ')} onClick={() => scegli(p)}>{contenuto}</button>
+                                ) : (
+                                    <div className={classi.join(' ')}>{contenuto}</div>
+                                ),
+                            });
+                        }
+                        for (const g of c.liberi) {
+                            carte.push({
+                                chiave: `l${g.email}`,
+                                fatta: true,
+                                nodo: (
+                                    <div className="tab-partita is-libera">
+                                        <div className="tab-giocatore is-vincitore"><span className="tab-nome">{g.nome}</span></div>
                                         <div className="tab-giocatore is-vuoto"><span>Nessun avversario</span></div>
+                                        <span className="tab-data">Passa il turno</span>
                                     </div>
-                                ))}
-                                {c.anteprima?.map((coppia, i) => (
-                                    <div key={i} className="tab-partita is-anteprima">
+                                ),
+                            });
+                        }
+                        (c.anteprima ?? []).forEach((coppia, i) => {
+                            carte.push({
+                                chiave: `a${i}`,
+                                fatta: false,
+                                nodo: (
+                                    <div className="tab-partita is-anteprima">
                                         {riga(coppia[0])}
                                         {coppia[1] ? riga(coppia[1]) : (
                                             <div className="tab-giocatore is-vuoto"><span>Nessun avversario</span></div>
                                         )}
+                                        <span className="tab-data">Da programmare</span>
                                     </div>
-                                ))}
-                                {Array.from({ length: c.vuote ?? 0 }, (_, i) => (
-                                    <div key={i} className="tab-partita is-futura">
+                                ),
+                            });
+                        });
+                        for (let i = 0; i < (c.vuote ?? 0); i++) {
+                            carte.push({
+                                chiave: `v${i}`,
+                                fatta: false,
+                                nodo: (
+                                    <div className="tab-partita is-futura">
                                         {riga(undefined)}
                                         {riga(undefined)}
+                                        <span className="tab-data">Da programmare</span>
                                     </div>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
+                                ),
+                            });
+                        }
+
+                        return (
+                            <section key={c.turno} className="tab-colonna" aria-label={nomeTurno(c.turno, totaleTurni)}>
+                                <h3 className="tab-turno">{nomeTurno(c.turno, totaleTurni)}</h3>
+                                <div className="tab-partite">
+                                    {carte.map((carta, i) => {
+                                        const posto = i % 2 === 1 ? 'is-basso' : i + 1 < carte.length ? 'is-alto' : 'is-solo';
+                                        return (
+                                            <div key={carta.chiave} className={`tab-slot ${posto}${carta.fatta ? ' is-fatta' : ''}`}>
+                                                {carta.nodo}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        );
+                    })}
                 </div>
             </div>
 

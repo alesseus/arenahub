@@ -98,6 +98,7 @@
 
 .cal-casella.is-oggi .cal-numero {
   color: var(--accent-text);
+  text-shadow: var(--glow-sm);
 }
 
 .cal-casella.has-eventi {
@@ -121,6 +122,7 @@
   text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
+  box-shadow: var(--glow-sm);
   transition: filter 160ms ease-out;
 }
 
@@ -132,6 +134,7 @@
 .cal-evento.is-concluso {
   background: var(--line);
   color: var(--text);
+  box-shadow: none;
 }
 
 .cal-nessuno {

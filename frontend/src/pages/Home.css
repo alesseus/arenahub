@@ -44,11 +44,13 @@
   bottom: 0;
   height: 4px;
   background: var(--accent);
+  box-shadow: 0 0 16px 1px rgb(34 199 224 / 0.7);
   transform-origin: left center;
   animation: sweep 1000ms cubic-bezier(0.65, 0, 0.35, 1) 900ms both;
 }
 
 .hero-title {
+  text-shadow: 0 0 32px rgb(34 199 224 / 0.35);
   max-width: 12ch;
   font-size: clamp(3.25rem, 8vw, 6rem);
   line-height: 0.9;

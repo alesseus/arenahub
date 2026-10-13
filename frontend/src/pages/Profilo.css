@@ -109,7 +109,7 @@
   border: 1px solid var(--line);
   border-radius: calc(var(--radius) * 2);
   background: var(--surface);
-  transition: border-color 160ms ease-out, transform 160ms ease-out;
+  transition: border-color 160ms ease-out, box-shadow 200ms ease-out;
 }
 
 .mio-torneo::before {
@@ -125,10 +125,12 @@
 
 .mio-torneo.is-aperto::before {
   background: var(--accent);
+  box-shadow: var(--glow-sm);
 }
 
 .mio-torneo:hover {
-  border-color: var(--text-muted);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
 }
 
 .mio-torneo.is-concluso {
@@ -191,6 +193,7 @@
 
 .mio-torneo-stato.is-aperto {
   border-color: var(--accent);
+  box-shadow: var(--glow-sm);
   color: var(--accent-text);
 }
 

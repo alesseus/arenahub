@@ -19,7 +19,12 @@ async function chiama<T>(percorso: string, opzioni: RequestInit = {}): Promise<T
         headers['Utente-Loggato'] = utente.email;
     }
 
-    const risposta = await fetch(`${API_URL}${percorso}`, { ...opzioni, headers });
+    let risposta: Response;
+    try {
+        risposta = await fetch(`${API_URL}${percorso}`, { ...opzioni, headers });
+    } catch {
+        throw new ErroreApi(0, 'Il server non risponde. Riprova tra qualche secondo.');
+    }
 
     if (!risposta.ok) {
         const corpo = await risposta.json().catch(() => null);

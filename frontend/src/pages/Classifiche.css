@@ -82,6 +82,7 @@
 }
 
 .risultati-campione {
+  text-shadow: 0 0 24px rgb(34 199 224 / 0.45);
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
@@ -134,6 +135,7 @@
 .risultati-lista li.is-1 .risultati-pos {
   background: var(--accent);
   color: var(--on-accent);
+  box-shadow: var(--glow-sm);
 }
 
 .risultati-lista li.is-2 .risultati-pos,
@@ -145,6 +147,7 @@
 
 .risultati-lista li.is-1 {
   border-color: var(--accent);
+  box-shadow: var(--glow);
 }
 
 .risultati-giocatore {

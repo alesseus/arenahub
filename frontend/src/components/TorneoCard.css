@@ -14,12 +14,14 @@
   box-shadow: var(--shadow);
   transition:
     transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 220ms ease-out;
+    border-color 220ms ease-out,
+    box-shadow 220ms ease-out;
 }
 
 .torneo-card:hover {
   transform: translateY(-4px);
   border-color: var(--accent);
+  box-shadow: var(--glow);
 }
 
 .torneo-media {

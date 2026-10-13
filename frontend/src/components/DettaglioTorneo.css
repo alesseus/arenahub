@@ -83,6 +83,7 @@
 
 .stato-pill.is-aperto {
   border-color: var(--accent);
+  box-shadow: var(--glow-sm);
   color: var(--accent-text);
 }
 

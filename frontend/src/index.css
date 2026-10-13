@@ -9,6 +9,12 @@
   --surface: #161921;
   --surface-2: #1e222c;
   --line: #2a2f3b;
+  --line-strong: #4a5367;
+  --glow-sm: 0 0 10px rgb(34 199 224 / 0.35);
+  --glow: 0 0 0 1px rgb(34 199 224 / 0.35), 0 0 24px -2px rgb(34 199 224 / 0.35);
+  --glow-btn: 0 0 18px -4px rgb(34 199 224 / 0.6);
+  --glow-btn-hover: 0 0 26px -2px rgb(34 199 224 / 0.7);
+  --text-glow: 0 0 22px rgb(34 199 224 / 0.35);
   --text: #eef1f6;
   --text-muted: #a1a9b8;
 
@@ -41,6 +47,12 @@
     --surface: #ffffff;
     --surface-2: #eceef2;
     --line: #dcdfe6;
+    --line-strong: #a9b0bd;
+    --glow-sm: 0 0 8px rgb(20 180 205 / 0.25);
+    --glow: 0 0 0 1px rgb(20 180 205 / 0.3), 0 0 20px -4px rgb(20 180 205 / 0.3);
+    --glow-btn: 0 0 14px -4px rgb(20 180 205 / 0.45);
+    --glow-btn-hover: 0 0 20px -4px rgb(20 180 205 / 0.55);
+    --text-glow: none;
     --text: #12151b;
     --text-muted: #555e6d;
     --accent: #14b4cd;
@@ -59,6 +71,12 @@
   --surface: #ffffff;
   --surface-2: #eceef2;
   --line: #dcdfe6;
+  --line-strong: #a9b0bd;
+  --glow-sm: 0 0 8px rgb(20 180 205 / 0.25);
+  --glow: 0 0 0 1px rgb(20 180 205 / 0.3), 0 0 20px -4px rgb(20 180 205 / 0.3);
+  --glow-btn: 0 0 14px -4px rgb(20 180 205 / 0.45);
+  --glow-btn-hover: 0 0 20px -4px rgb(20 180 205 / 0.55);
+  --text-glow: none;
   --text: #12151b;
   --text-muted: #555e6d;
   --accent: #14b4cd;
@@ -155,7 +173,8 @@ html {
   transition:
     background-color 160ms ease-out,
     transform 160ms ease-out,
-    border-color 160ms ease-out;
+    border-color 160ms ease-out,
+    box-shadow 200ms ease-out;
 }
 
 .btn:active {
@@ -165,10 +184,12 @@ html {
 .btn-primary {
   background: var(--accent);
   color: var(--on-accent);
+  box-shadow: var(--glow-btn);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
+  box-shadow: var(--glow-btn-hover);
 }
 
 .btn-ghost {
@@ -178,10 +199,16 @@ html {
 }
 
 .btn-ghost:hover {
-  border-color: var(--text-muted);
+  border-color: var(--accent);
+  box-shadow: var(--glow-sm);
 }
 
 .btn:disabled {
   opacity: 0.45;
+  box-shadow: none;
   cursor: not-allowed;
+}
+
+.page-title {
+  text-shadow: var(--text-glow);
 }

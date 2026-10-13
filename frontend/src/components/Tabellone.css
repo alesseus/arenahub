@@ -34,12 +34,12 @@
 .tab-colonna {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.25rem;
 }
 
 .tab-turno {
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-strong);
   font-size: 1.125rem;
   color: var(--text-muted);
 }
@@ -48,17 +48,76 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 1rem;
+}
+
+.tab-slot {
+  --mezzo: 1.25rem;
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.tab-colonna:not(:last-child) .tab-slot::after,
+.tab-colonna:not(:first-child) .tab-slot::before {
+  content: '';
+  position: absolute;
+  width: var(--mezzo);
+  border: 0 solid var(--line-strong);
+  pointer-events: none;
+  transition: border-color 200ms ease-out;
+}
+
+.tab-colonna:not(:last-child) .tab-slot::after {
+  right: calc(var(--mezzo) * -1);
+}
+
+.tab-colonna:not(:last-child) .tab-slot.is-alto::after {
+  top: calc(50% - 1px);
+  bottom: 0;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-top-right-radius: 6px;
+}
+
+.tab-colonna:not(:last-child) .tab-slot.is-basso::after {
+  top: 0;
+  bottom: calc(50% - 1px);
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-bottom-right-radius: 6px;
+}
+
+.tab-colonna:not(:last-child) .tab-slot.is-solo::after {
+  top: calc(50% - 1px);
+  border-top-width: 2px;
+}
+
+.tab-colonna:not(:first-child) .tab-slot::before {
+  top: calc(50% - 1px);
+  left: calc(var(--mezzo) * -1);
+  border-top-width: 2px;
+}
+
+.tab-colonna:not(:last-child) .tab-slot.is-fatta::after {
+  border-color: var(--accent);
+  filter: drop-shadow(0 0 4px rgb(34 199 224 / 0.6));
+}
+
+.tab-colonna:not(:first-child) .tab-slot:has(.is-programmata, .is-conclusa)::before {
+  border-color: var(--accent);
+  filter: drop-shadow(0 0 4px rgb(34 199 224 / 0.6));
 }
 
 .tab-partita {
   position: relative;
+  z-index: 1;
   display: grid;
   width: 100%;
   padding: 0;
-  overflow: visible;
-  border: 1px solid var(--line);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: var(--surface-2);
   color: var(--text);
@@ -66,26 +125,9 @@
   text-align: left;
 }
 
-.tab-colonna:not(:last-child) .tab-partita::after,
-.tab-colonna:not(:first-child) .tab-partita::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 1.25rem;
-  height: 2px;
-  background: var(--line);
-}
-
-.tab-colonna:not(:last-child) .tab-partita::after {
-  right: calc(-1.25rem - 1px);
-}
-
-.tab-colonna:not(:first-child) .tab-partita::before {
-  left: calc(-1.25rem - 1px);
-}
-
-.tab-colonna:not(:last-child) .tab-partita.is-conclusa::after {
-  background: var(--accent);
+.tab-partita.is-conclusa,
+.tab-partita.is-libera {
+  border-color: rgb(34 199 224 / 0.45);
 }
 
 button.tab-partita {
@@ -111,6 +153,7 @@ button.tab-partita:focus-visible {
 .tab-partita.is-anteprima,
 .tab-partita.is-futura {
   border-style: dashed;
+  border-color: var(--line-strong);
   background: transparent;
 }
 
@@ -124,7 +167,7 @@ button.tab-partita:focus-visible {
 }
 
 .tab-giocatore + .tab-giocatore {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-strong);
 }
 
 .tab-nome {
@@ -150,6 +193,7 @@ button.tab-partita:focus-visible {
 
 .tab-giocatore.is-vincitore .tab-punti {
   color: var(--accent-text);
+  text-shadow: var(--glow-sm);
 }
 
 .tab-giocatore.is-perdente {
@@ -168,7 +212,7 @@ button.tab-partita:focus-visible {
 
 .tab-data {
   padding: 0.25rem 0.75rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-strong);
   font-size: 0.8125rem;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
@@ -225,6 +269,7 @@ button.tab-partita:focus-visible {
 }
 
 .tab-campione {
+  box-shadow: var(--glow);
   display: grid;
   justify-items: start;
   gap: 0.75rem;
@@ -245,6 +290,7 @@ button.tab-partita:focus-visible {
 }
 
 .tab-campione-nome {
+  text-shadow: var(--text-glow);
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 800;
@@ -265,17 +311,7 @@ button.tab-partita:focus-visible {
     gap: 2rem;
   }
 
-  .tab-colonna:not(:last-child) .tab-partita::after {
-    right: calc(-1rem - 1px);
-    width: 1rem;
+  .tab-slot {
+    --mezzo: 1rem;
   }
-
-  .tab-colonna:not(:first-child) .tab-partita::before {
-    left: calc(-1rem - 1px);
-    width: 1rem;
-  }
-}
-
-.tab-colonna:not(:last-child) .tab-partita.is-libera::after {
-  background: var(--accent);
 }

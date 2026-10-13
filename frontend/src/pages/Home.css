@@ -10,7 +10,6 @@
   overflow: hidden;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 1fr auto;
   min-height: max(560px, calc(100svh - 68px));
   background: var(--photo-ground);
   color: var(--on-photo);
@@ -154,100 +153,6 @@
 .arena-secondario:hover {
   border-color: var(--accent);
   box-shadow: var(--glow-sm);
-}
-
-.ticker {
-  display: flex;
-  align-items: stretch;
-  height: 52px;
-  border-top: 1px solid rgb(34 199 224 / 0.35);
-  background: rgb(8 10 14 / 0.78);
-  box-shadow: 0 -12px 32px -18px rgb(34 199 224 / 0.6);
-  backdrop-filter: blur(8px);
-  animation: ticker-entra 800ms cubic-bezier(0.16, 1, 0.3, 1) 1500ms both;
-}
-
-.ticker-etichetta {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0 2rem 0 var(--gutter);
-  background: var(--accent);
-  color: var(--on-accent);
-  font-family: var(--font-display);
-  font-size: 1.0625rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
-}
-
-.ticker-punto {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: punto-pulsa 1600ms ease-out infinite;
-}
-
-.ticker-binario {
-  flex: 1;
-  overflow: hidden;
-  -webkit-mask: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
-  mask: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
-}
-
-.ticker-nastro {
-  display: flex;
-  width: max-content;
-  height: 100%;
-  animation: nastro 42s linear infinite;
-}
-
-.ticker:hover .ticker-nastro,
-.arena.is-fuori .ticker-nastro {
-  animation-play-state: paused;
-}
-
-.ticker-giro {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ticker-giro li {
-  display: flex;
-  align-items: center;
-  gap: 1.75rem;
-  padding-left: 1.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--on-photo);
-  font-variant-numeric: tabular-nums;
-}
-
-.ticker-giro li::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  rotate: 45deg;
-  box-shadow: 0 0 8px rgb(34 199 224 / 0.8);
-}
-
-.ticker-giro li:first-child {
-  color: var(--accent);
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.ticker.is-vuoto {
-  animation: none;
 }
 
 .arena.is-fuori .arena-fascio,
@@ -564,24 +469,6 @@
   }
 }
 
-@keyframes ticker-entra {
-  from {
-    translate: 0 100%;
-  }
-  to {
-    translate: 0 0;
-  }
-}
-
-@keyframes punto-pulsa {
-  0% {
-    box-shadow: 0 0 0 0 rgb(6 20 24 / 0.6);
-  }
-  100% {
-    box-shadow: 0 0 0 9px rgb(6 20 24 / 0);
-  }
-}
-
 @keyframes nastro {
   from {
     transform: translateX(0);
@@ -626,8 +513,6 @@
   .arena-neon,
   .arena-testo,
   .arena-azioni,
-  .ticker,
-  .ticker-punto,
   .home-grid .torneo-card,
   .arena-scena,
   .empty-state::before,
@@ -641,19 +526,16 @@
     transition: none;
   }
 
-  .ticker-nastro,
   .giochi-nastro {
     animation: none;
   }
 
-  .ticker-binario,
   .giochi-binario {
     overflow-x: auto;
     -webkit-mask: none;
     mask: none;
   }
 
-  .ticker-giro[aria-hidden],
   .giochi-giro[aria-hidden] {
     display: none;
   }
@@ -688,15 +570,6 @@
 
   .arena-azioni .btn {
     flex: 1 1 100%;
-  }
-
-  .ticker {
-    height: 46px;
-  }
-
-  .ticker-etichetta {
-    padding-right: 1.5rem;
-    font-size: 0.9375rem;
   }
 
   .empty-state {

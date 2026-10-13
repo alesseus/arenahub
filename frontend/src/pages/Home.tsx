@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { Link } from 'react-router';
 import { getGiochi, getTornei } from '../api';
 import TorneoCard from '../components/TorneoCard';
-import { dataBreve, fotoValida } from '../formato';
+import { fotoValida } from '../formato';
 import type { Gioco, Torneo } from '../types';
 import './Home.css';
 
@@ -26,7 +26,7 @@ function Home() {
 
     return (
         <main className="home">
-            <Arena tornei={tornei} giochi={giochi} pronto={!caricamento && !errore} />
+            <Arena />
 
             {giochi.length > 0 && <StrisciaGiochi giochi={giochi} />}
 
@@ -58,7 +58,7 @@ function Home() {
     );
 }
 
-function Arena({ tornei, giochi, pronto }: { tornei: Torneo[]; giochi: Gioco[]; pronto: boolean }) {
+function Arena() {
     const ref = useRef<HTMLElement>(null);
     const frame = useRef(0);
 
@@ -115,45 +115,7 @@ function Arena({ tornei, giochi, pronto }: { tornei: Torneo[]; giochi: Gioco[]; 
                 </div>
             </div>
 
-            <Ticker tornei={tornei} giochi={giochi} pronto={pronto} />
         </section>
-    );
-}
-
-function Ticker({ tornei, giochi, pronto }: { tornei: Torneo[]; giochi: Gioco[]; pronto: boolean }) {
-    if (!pronto) {
-        return <div className="ticker is-vuoto" aria-hidden="true" />;
-    }
-
-    const voci = [
-        tornei.length === 0 ? 'Nessun torneo aperto' : tornei.length === 1 ? '1 torneo aperto' : `${tornei.length} tornei aperti`,
-        ...tornei.map((t) => `${t.nome} · ${t.gioco?.nome ?? 'Gioco'} · ${dataBreve(t.data_ora_inizio)}`),
-        ...(giochi.length > 0 ? [`${giochi.length} giochi in arena`] : []),
-    ];
-
-    function giro(nascosto: boolean) {
-        return (
-            <ul className="ticker-giro" aria-hidden={nascosto || undefined}>
-                {voci.map((voce, i) => (
-                    <li key={i}>{voce}</li>
-                ))}
-            </ul>
-        );
-    }
-
-    return (
-        <div className="ticker">
-            <span className="ticker-etichetta">
-                <span className="ticker-punto" />
-                In arena
-            </span>
-            <div className="ticker-binario">
-                <div className="ticker-nastro">
-                    {giro(false)}
-                    {giro(true)}
-                </div>
-            </div>
-        </div>
     );
 }
 

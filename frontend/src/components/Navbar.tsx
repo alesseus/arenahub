@@ -1,14 +1,15 @@
+import { Link, NavLink } from 'react-router';
 import './Navbar.css';
 
 function Navbar() {
     return (
         <header className="navbar">
-            <a href="/" className="navbar-logo">ArenaHub</a>
+            <Link to="/" className="navbar-logo">ArenaHub</Link>
             <nav>
                 <ul className="navbar-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/tornei">Tornei</a></li>
-                    <li><a href="/classifiche">Classifiche</a></li>
+                    <li><NavLink to="/" end>Home</NavLink></li>
+                    <li><NavLink to="/tornei">Tornei</NavLink></li>
+                    <li><NavLink to="/classifiche">Classifiche</NavLink></li>
                     <li><button className="btn btn-primary">Accedi</button></li>
                 </ul>
             </nav>

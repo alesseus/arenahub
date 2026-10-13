@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
+import { getTornei } from '../api';
 import TorneoCard from '../components/TorneoCard';
 import type { Torneo } from '../types';
 import './Home.css';
@@ -9,14 +11,8 @@ function Home() {
     const [errore, setErrore] = useState(false);
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/tornei?stato=aperto&limit=3`)
-            .then((risposta) => {
-                if (!risposta.ok) {
-                    throw new Error('Risposta non valida');
-                }
-                return risposta.json();
-            })
-            .then((dati: Torneo[]) => setTornei(dati))
+        getTornei('?stato=aperto&limit=3')
+            .then((dati) => setTornei(dati))
             .catch(() => setErrore(true))
             .finally(() => setCaricamento(false));
     }, []);
@@ -52,7 +48,7 @@ function Home() {
                 )}
             </section>
 
-            <a href="/tornei" className="btn btn-primary home-cta">Visualizza tornei</a>
+            <Link to="/tornei" className="btn btn-primary home-cta">Visualizza tornei</Link>
         </main>
     );
 }

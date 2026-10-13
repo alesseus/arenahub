@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import type { Torneo } from '../types';
 import './TorneoCard.css';
 
@@ -20,6 +21,12 @@ function TorneoCard({ torneo }: Props) {
     const gioco = torneo.gioco;
     const foto = gioco?.path_foto;
     const completo = torneo.posti_liberi === 0;
+    const testoPosti =
+        torneo.stato === 'concluso' ? 'Concluso'
+        : torneo.stato === 'chiuso' ? 'Iscrizioni chiuse'
+        : completo ? 'Completo'
+        : `${torneo.posti_liberi} posti liberi`;
+    const spento = torneo.stato !== 'aperto' || completo;
 
     return (
         <article className="torneo-card">
@@ -37,11 +44,11 @@ function TorneoCard({ torneo }: Props) {
                 <p className="torneo-data">{formattaData(torneo.data_ora_inizio)}</p>
 
                 <div className="torneo-footer">
-                    <p className={completo ? 'torneo-posti is-completo' : 'torneo-posti'}>
-                        {completo ? 'Completo' : `${torneo.posti_liberi} posti liberi`}
+                    <p className={spento ? 'torneo-posti is-completo' : 'torneo-posti'}>
+                        {testoPosti}
                         <span>{torneo.iscritti}/{torneo.posti_max} iscritti</span>
                     </p>
-                    <a href={`/tornei/${torneo.id_torneo}`} className="btn btn-ghost">Dettaglio</a>
+                    <Link to={`/tornei/${torneo.id_torneo}`} className="btn btn-ghost">Dettaglio</Link>
                 </div>
             </div>
         </article>

@@ -1,0 +1,266 @@
+.tornei-page {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 56px) var(--gutter) 96px;
+}
+
+.tornei-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.9;
+  animation: page-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-intro {
+  margin-top: 0.75rem;
+  max-width: 48ch;
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  animation: page-in 700ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 160ms ease-out,
+    border-color 160ms ease-out,
+    background-color 160ms ease-out;
+}
+
+.chip:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.vista-switch {
+  display: flex;
+  margin-left: auto;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.vista-switch button {
+  min-height: 36px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 160ms ease-out,
+    background-color 160ms ease-out;
+}
+
+.vista-switch button[aria-pressed='true'] {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.tornei-page .empty-state {
+  min-height: 260px;
+}
+
+.tornei-page .torneo-card {
+  animation: page-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.tornei-page .torneo-card:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.tornei-page .torneo-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.tornei-page .torneo-card:nth-child(n + 4) {
+  animation-delay: 180ms;
+}
+
+.calendario {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.cal-mese-titolo {
+  margin-bottom: 1rem;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  color: var(--accent-text);
+}
+
+.cal-lista {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cal-riga {
+  display: grid;
+  grid-template-columns: 76px 1fr auto auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  background: var(--surface);
+  animation: page-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: border-color 200ms ease-out;
+}
+
+.cal-riga:hover {
+  border-color: var(--accent);
+}
+
+.cal-data {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  background: var(--photo-ground);
+  color: var(--on-photo);
+}
+
+.cal-giorno {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cal-settimana {
+  margin-top: -0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.cal-gioco {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.cal-nome {
+  font-size: 1.5rem;
+  line-height: 1.05;
+}
+
+.cal-dettagli {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-stato {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.cal-stato.is-aperto {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-title,
+  .page-intro,
+  .tornei-page .torneo-card,
+  .cal-riga {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    gap: 0.75rem;
+  }
+
+  .chip-group {
+    flex-wrap: nowrap;
+    width: calc(100% + 2 * var(--gutter));
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .chip {
+    flex-shrink: 0;
+  }
+
+  .vista-switch {
+    margin-left: 0;
+  }
+
+  .cal-riga {
+    grid-template-columns: 64px 1fr;
+    gap: 0.75rem 1rem;
+  }
+
+  .cal-stato {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .cal-riga .btn {
+    grid-column: 1 / -1;
+  }
+}

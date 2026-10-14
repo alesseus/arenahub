@@ -1,5 +1,18 @@
 .home {
+  position: relative;
+  isolation: isolate;
   padding-bottom: 96px;
+}
+
+.home::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(55% 38% at 0% 58%, rgb(139 108 255 / 0.13), transparent 70%),
+    radial-gradient(50% 32% at 100% 88%, rgb(34 199 224 / 0.11), transparent 70%);
+  pointer-events: none;
 }
 
 .arena {
@@ -22,65 +35,64 @@
   overflow: hidden;
 }
 
-.arena-foto {
+.arena-video {
   position: absolute;
-  inset: -5%;
-  width: 110%;
-  height: 110%;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
   object-fit: cover;
   object-position: 50% 40%;
-  scale: 1.04;
-  translate: calc(var(--mx) * -22px) calc(var(--my) * -14px);
+  transform: scaleX(-1);
+  translate: calc(var(--mx) * -20px) calc(var(--my) * -12px);
   transition: translate 900ms cubic-bezier(0.16, 1, 0.3, 1);
-  animation: foto-accendi 2400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: video-accendi 2200ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.arena-fascio {
-  --r: 0deg;
+.arena-colore {
   position: absolute;
-  top: -18%;
-  width: clamp(220px, 34vw, 520px);
-  height: 135%;
-  background: linear-gradient(180deg, rgb(34 199 224 / 0.6) 0%, rgb(34 199 224 / 0.18) 45%, rgb(34 199 224 / 0) 80%);
-  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
-  filter: blur(18px);
+  inset: 0;
+  background: linear-gradient(115deg, rgb(34 199 224 / 0.9) 0%, rgb(95 157 255 / 0.7) 45%, rgb(139 108 255 / 0.9) 100%);
+  mix-blend-mode: color;
+  opacity: 0.38;
+}
+
+.arena-griglia {
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: -2%;
+  height: 38%;
+  background-image:
+    linear-gradient(rgb(34 199 224 / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(139 108 255 / 0.45) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(420px) rotateX(62deg);
+  transform-origin: 50% 100%;
+  -webkit-mask: linear-gradient(0deg, #000 0%, transparent 85%);
+  mask: linear-gradient(0deg, #000 0%, transparent 85%);
+  opacity: 0.3;
   mix-blend-mode: screen;
-  transform-origin: 50% 0;
-  rotate: var(--r);
-  translate: calc(var(--mx) * 40px) 0;
-  transition: translate 1200ms cubic-bezier(0.16, 1, 0.3, 1);
-  animation:
-    fascio-accendi 1400ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both,
-    fascio-ondeggia 9s ease-in-out 1600ms infinite alternate both;
-}
-
-.arena-fascio.is-1 {
-  --r: 22deg;
-  left: 2%;
-}
-
-.arena-fascio.is-2 {
-  --r: -6deg;
-  left: 38%;
-  background: linear-gradient(180deg, rgb(220 245 255 / 0.4) 0%, rgb(160 225 245 / 0.1) 45%, transparent 75%);
-  animation-delay: 350ms, 2000ms;
-  animation-duration: 1400ms, 11s;
-}
-
-.arena-fascio.is-3 {
-  --r: -26deg;
-  left: 66%;
-  animation-delay: 550ms, 1800ms;
-  animation-duration: 1400ms, 8s;
+  animation: griglia-scorre 2.4s linear infinite;
 }
 
 .arena-velo {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgb(8 10 14 / 0.94) 0%, rgb(8 10 14 / 0.72) 36%, rgb(8 10 14 / 0.2) 68%, rgb(8 10 14 / 0.35) 100%),
-    linear-gradient(0deg, rgb(8 10 14 / 0.96) 0%, rgb(8 10 14 / 0.4) 26%, transparent 50%),
+    linear-gradient(90deg, rgb(8 10 14 / 0.92) 0%, rgb(8 10 14 / 0.66) 38%, rgb(8 10 14 / 0.1) 70%, rgb(8 10 14 / 0.3) 100%),
+    linear-gradient(0deg, rgb(8 10 14 / 0.95) 0%, rgb(8 10 14 / 0.3) 28%, transparent 50%),
     linear-gradient(180deg, rgb(8 10 14 / 0.6) 0%, transparent 22%);
+}
+
+.arena::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent-2) 70%, transparent 100%);
+  box-shadow: 0 0 18px 1px rgb(139 108 255 / 0.5);
 }
 
 .arena-contenuto {
@@ -108,13 +120,14 @@
 }
 
 .arena-neon {
-  color: var(--accent);
-  text-shadow:
-    0 0 14px rgb(34 199 224 / 0.7),
-    0 0 42px rgb(34 199 224 / 0.45);
+  background: linear-gradient(90deg, #22c7e0 0%, #5f9dff 30%, #8b6cff 50%, #5f9dff 70%, #22c7e0 100%) 0 0 / 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 16px rgb(95 157 255 / 0.55));
   animation:
     neon-accende 1500ms linear 1150ms both,
-    neon-ronza 4s ease-in-out 2700ms infinite alternate;
+    gradiente-scorre 6s linear 2700ms infinite;
 }
 
 .arena-testo {
@@ -135,9 +148,33 @@
 }
 
 .arena-cta {
+  position: relative;
+  overflow: hidden;
   min-height: 54px;
   padding: 0 1.875rem;
+  border: 0;
+  background: var(--gradiente);
+  color: #061418;
   font-size: 1.1875rem;
+  box-shadow: 0 0 28px -6px rgb(95 157 255 / 0.75);
+}
+
+.arena-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.55) 50%, transparent 65%);
+  translate: -100% 0;
+  transition: translate 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arena-cta:hover {
+  background: var(--gradiente);
+  box-shadow: 0 0 36px -4px rgb(139 108 255 / 0.85);
+}
+
+.arena-cta:hover::after {
+  translate: 100% 0;
 }
 
 .arena-secondario {
@@ -155,7 +192,7 @@
   box-shadow: var(--glow-sm);
 }
 
-.arena.is-fuori .arena-fascio,
+.arena.is-fuori .arena-griglia,
 .arena.is-fuori .arena-neon {
   animation-play-state: paused;
 }
@@ -225,10 +262,13 @@
 }
 
 .gioco-iniziale {
+  background: var(--gradiente);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-family: var(--font-display);
   font-size: 3.5rem;
   font-weight: 800;
-  color: var(--accent);
 }
 
 .gioco-nome {
@@ -252,8 +292,8 @@
 
 .gioco-tessera:hover {
   translate: 0 -6px;
-  border-color: var(--accent);
-  box-shadow: var(--glow);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px rgb(139 108 255 / 0.4), 0 10px 32px -6px rgb(139 108 255 / 0.55);
 }
 
 .gioco-tessera:hover img {
@@ -283,6 +323,17 @@
 
 .upcoming-testa .section-title {
   margin-bottom: 0;
+}
+
+.home .section-title::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 0.8em;
+  margin-right: 0.625rem;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 12px rgb(95 157 255 / 0.6);
 }
 
 .section-title {
@@ -374,37 +425,29 @@
   }
 }
 
-@keyframes foto-accendi {
+@keyframes video-accendi {
   from {
-    scale: 1.16;
-    filter: brightness(0.12) saturate(0.4) blur(8px);
+    scale: 1.12;
+    filter: brightness(0.1) saturate(0.4) blur(8px);
   }
   45% {
     filter: brightness(0.55) saturate(0.8) blur(2px);
   }
   to {
-    scale: 1.04;
+    scale: 1;
     filter: none;
   }
 }
 
-@keyframes fascio-accendi {
-  from {
-    opacity: 0;
-    scale: 1 0.2;
-  }
+@keyframes griglia-scorre {
   to {
-    opacity: 1;
-    scale: 1 1;
+    background-position: 0 64px, 0 0;
   }
 }
 
-@keyframes fascio-ondeggia {
-  from {
-    rotate: calc(var(--r) - 7deg);
-  }
+@keyframes gradiente-scorre {
   to {
-    rotate: calc(var(--r) + 7deg);
+    background-position: -200% 0;
   }
 }
 
@@ -424,14 +467,12 @@
 @keyframes neon-accende {
   0% {
     opacity: 0.2;
-    text-shadow: none;
   }
   6% {
     opacity: 1;
   }
   9% {
     opacity: 0.3;
-    text-shadow: none;
   }
   14% {
     opacity: 1;
@@ -442,19 +483,6 @@
   26%,
   100% {
     opacity: 1;
-  }
-}
-
-@keyframes neon-ronza {
-  from {
-    text-shadow:
-      0 0 14px rgb(34 199 224 / 0.7),
-      0 0 42px rgb(34 199 224 / 0.45);
-  }
-  to {
-    text-shadow:
-      0 0 18px rgb(34 199 224 / 0.85),
-      0 0 64px rgb(34 199 224 / 0.6);
   }
 }
 
@@ -507,8 +535,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .arena-foto,
-  .arena-fascio,
+  .arena-video,
+  .arena-griglia,
   .arena-riga,
   .arena-neon,
   .arena-testo,
@@ -520,10 +548,13 @@
     animation: none;
   }
 
-  .arena-foto,
-  .arena-fascio {
+  .arena-video {
     translate: none;
     transition: none;
+  }
+
+  .arena-cta::after {
+    display: none;
   }
 
   .giochi-nastro {
@@ -556,16 +587,8 @@
       linear-gradient(180deg, rgb(8 10 14 / 0.6) 0%, transparent 22%);
   }
 
-  .arena-fascio.is-3 {
-    display: none;
-  }
-
-  .arena-fascio.is-1 {
-    left: -14%;
-  }
-
-  .arena-fascio.is-2 {
-    left: 46%;
+  .arena-video {
+    object-position: 30% 50%;
   }
 
   .arena-azioni .btn {

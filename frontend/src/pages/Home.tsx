@@ -61,13 +61,19 @@ function Home() {
 
 function Arena() {
     const ref = useRef<HTMLElement>(null);
+    const video = useRef<HTMLVideoElement>(null);
     const frame = useRef(0);
 
     useEffect(() => {
         const sezione = ref.current;
         if (!sezione) return;
+        const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const osservatore = new IntersectionObserver(([voce]) => {
             sezione.classList.toggle('is-fuori', !voce.isIntersecting);
+            const v = video.current;
+            if (!v) return;
+            if (voce.isIntersecting && !ridotto) v.play().catch(() => {});
+            else v.pause();
         });
         osservatore.observe(sezione);
         return () => {
@@ -92,14 +98,21 @@ function Arena() {
     return (
         <section className="arena" ref={ref} onPointerMove={muovi} aria-labelledby="arena-titolo">
             <div className="arena-scena" aria-hidden="true">
-                <picture>
-                    <source media="(max-width: 700px)" srcSet="/img/arena-mobile.jpg" />
-                    <img className="arena-foto" src="/img/arena.jpg" alt="" />
-                </picture>
-                <span className="arena-fascio is-1" />
-                <span className="arena-fascio is-2" />
-                <span className="arena-fascio is-3" />
+                <video
+                    ref={video}
+                    className="arena-video"
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    poster="/video/arena-poster.jpg"
+                >
+                    <source media="(max-width: 700px)" src="/video/arena-mobile.mp4" type="video/mp4" />
+                    <source src="/video/arena.mp4" type="video/mp4" />
+                </video>
+                <span className="arena-colore" />
                 <span className="arena-velo" />
+                <span className="arena-griglia" />
             </div>
 
             <div className="arena-contenuto">

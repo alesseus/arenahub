@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { Link } from 'react-router';
+import { ArrowRight } from '../components/Icone';
 import { getGiochi, getTornei } from '../api';
 import TorneoCard from '../components/TorneoCard';
 import { fotoValida } from '../formato';
@@ -33,7 +34,7 @@ function Home() {
             <section className="upcoming">
                 <div className="upcoming-testa">
                     <h2 className="section-title">Prossimi tornei</h2>
-                    <Link to="/tornei" className="btn btn-ghost">Tutti i tornei</Link>
+                    <Link to="/tornei" className="btn btn-ghost">Tutti i tornei<ArrowRight aria-hidden="true" /></Link>
                 </div>
 
                 {caricamento ? (
@@ -110,7 +111,7 @@ function Arena() {
                 </h1>
                 <p className="arena-testo">Trova un torneo, iscriviti e scala il tabellone fino alla finale.</p>
                 <div className="arena-azioni">
-                    <Link to="/tornei" className="btn btn-primary arena-cta">Scopri i tornei</Link>
+                    <Link to="/tornei" className="btn btn-primary arena-cta">Scopri i tornei<ArrowRight aria-hidden="true" /></Link>
                     <Link to="/classifiche" className="btn arena-secondario">Classifiche</Link>
                 </div>
             </div>

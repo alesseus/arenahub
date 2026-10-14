@@ -87,11 +87,7 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  fill: none;
-  stroke: currentColor;
   stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   transition:
     opacity 260ms ease-out,
     rotate 420ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -165,6 +161,21 @@
   transition: color 160ms ease-out;
 }
 
+.navbar-links a svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.4rem;
+  stroke-width: 2;
+  opacity: 0.75;
+  transition: opacity 160ms ease-out, color 160ms ease-out;
+}
+
+.navbar-links a:hover svg,
+.navbar-links a[aria-current='page'] svg {
+  opacity: 1;
+  color: var(--accent-text);
+}
+
 .navbar-links a::after {
   content: '';
   position: absolute;
@@ -232,6 +243,10 @@
     font-size: 0.9375rem;
   }
 
+  .navbar-links a svg {
+    display: none;
+  }
+
   .navbar-links a::after {
     left: 0.5rem;
     right: 0.5rem;
@@ -253,6 +268,10 @@
 }
 
 @media (max-width: 480px) {
+  .navbar-links .btn svg {
+    display: none;
+  }
+
   .navbar-logo {
     gap: 0;
     font-size: 0;

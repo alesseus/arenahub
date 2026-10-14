@@ -84,7 +84,17 @@
 }
 
 .torneo-data {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   color: var(--text-muted);
+}
+
+.torneo-data svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--accent-text);
 }
 
 .torneo-footer {

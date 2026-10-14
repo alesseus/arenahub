@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router';
+import { ChartNoAxesColumn, House, LayoutDashboard, LogIn, LogOut, Moon, Sun, Trophy, UserRound } from './Icone';
 import { salvaTema } from '../sessione';
 import { useUtente } from '../utente-context';
 import './Navbar.css';
@@ -40,9 +41,9 @@ function Navbar() {
             </div>
             <nav>
                 <ul className="navbar-links">
-                    <li><NavLink to="/" end>Home</NavLink></li>
-                    <li><NavLink to="/tornei">Tornei</NavLink></li>
-                    <li><NavLink to="/classifiche">Classifiche</NavLink></li>
+                    <li><NavLink to="/" end><House aria-hidden="true" />Home</NavLink></li>
+                    <li><NavLink to="/tornei"><Trophy aria-hidden="true" />Tornei</NavLink></li>
+                    <li><NavLink to="/classifiche"><ChartNoAxesColumn aria-hidden="true" />Classifiche</NavLink></li>
                     <li className="navbar-destra">
                         <button
                             className={`navbar-tema is-${tema}`}
@@ -50,26 +51,21 @@ function Navbar() {
                             aria-label={tema === 'dark' ? 'Passa al tema chiaro' : 'Passa al tema scuro'}
                             title={tema === 'dark' ? 'Tema chiaro' : 'Tema scuro'}
                         >
-                            <svg className="tema-sole" viewBox="0 0 24 24" aria-hidden="true">
-                                <circle cx="12" cy="12" r="4.5" />
-                                <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
-                            </svg>
-                            <svg className="tema-luna" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
-                            </svg>
+                            <Sun className="tema-sole" aria-hidden="true" />
+                            <Moon className="tema-luna" aria-hidden="true" />
                         </button>
                     </li>
                     {utente ? (
                         <>
                             <li>
                                 {utente.admin
-                                    ? <NavLink to="/admin">Admin</NavLink>
-                                    : <NavLink to="/profilo">Profilo</NavLink>}
+                                    ? <NavLink to="/admin"><LayoutDashboard aria-hidden="true" />Admin</NavLink>
+                                    : <NavLink to="/profilo"><UserRound aria-hidden="true" />Profilo</NavLink>}
                             </li>
-                            <li><button className="btn btn-ghost" onClick={esci}>Esci</button></li>
+                            <li><button className="btn btn-ghost" onClick={esci}><LogOut aria-hidden="true" />Esci</button></li>
                         </>
                     ) : (
-                        <li><button className="btn btn-primary" onClick={() => apriAccesso()}>Accedi</button></li>
+                        <li><button className="btn btn-primary" onClick={() => apriAccesso()}><LogIn aria-hidden="true" />Accedi</button></li>
                     )}
                 </ul>
             </nav>

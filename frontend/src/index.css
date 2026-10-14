@@ -154,6 +154,13 @@ html {
   border: 0;
 }
 
+.btn svg {
+  flex-shrink: 0;
+  width: 1.125em;
+  height: 1.125em;
+  stroke-width: 2.25;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
+import { Trophy } from '../components/Icone';
 import { ErroreApi, getClassifica, getTornei } from '../api';
 import Modale from '../components/Modale';
 import TorneoCard from '../components/TorneoCard';
@@ -97,7 +98,7 @@ function Risultati({ id }: { id: string }) {
                 <h2 className="risultati-nome">{dati.torneo.nome}</h2>
                 {primo ? (
                     <div className="risultati-vincitore">
-                        <p className="risultati-etichetta">Vincitore</p>
+                        <p className="risultati-etichetta"><Trophy aria-hidden="true" />Vincitore</p>
                         <p className="risultati-campione">{nome(primo)}</p>
                     </div>
                 ) : (

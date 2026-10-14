@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CalendarDays, Plus, Settings2, Users } from '../components/Icone';
 import { getTornei } from '../api';
 import FormTorneo from '../components/FormTorneo';
 import GestioneTorneo from '../components/GestioneTorneo';
@@ -127,7 +128,7 @@ function Admin() {
             <div className="admin-testa">
                 <h1 className="page-title">Dashboard admin</h1>
                 <button className="btn btn-primary admin-nuovo" onClick={() => apri('nuovo')}>
-                    <span aria-hidden="true" className="admin-piu" />
+                    <Plus aria-hidden="true" />
                     Nuovo torneo
                 </button>
             </div>
@@ -174,7 +175,7 @@ function Admin() {
                                 <span className={`admin-stato is-${t.stato}`}>{nomiStato[t.stato]}</span>
                             </div>
                             <h2 className="admin-card-nome">{t.nome}</h2>
-                            <p className="admin-card-data">{dataBreve(t.data_ora_inizio)}</p>
+                            <p className="admin-card-data"><CalendarDays aria-hidden="true" /><span>{dataBreve(t.data_ora_inizio)}</span></p>
                             <div className="admin-posti">
                                 <div className="admin-posti-testo">
                                     <span>Iscritti</span>
@@ -186,8 +187,8 @@ function Admin() {
                                 {t.in_attesa > 0 && <p className="admin-attesa">{t.in_attesa} in lista d'attesa</p>}
                             </div>
                             <div className="admin-card-azioni">
-                                <button className="btn btn-primary" onClick={() => apri('gestione', t)}>Gestisci</button>
-                                <button className="btn btn-ghost" onClick={() => apri('iscritti', t)}>Iscritti</button>
+                                <button className="btn btn-primary" onClick={() => apri('gestione', t)}><Settings2 aria-hidden="true" />Gestisci</button>
+                                <button className="btn btn-ghost" onClick={() => apri('iscritti', t)}><Users aria-hidden="true" />Iscritti</button>
                             </div>
                         </li>
                     ))}

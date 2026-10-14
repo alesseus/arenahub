@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router';
+import { Pencil } from '../components/Icone';
 import { annullaIscrizione, getMieiTornei, modificaProfilo } from '../api';
 import Modale from '../components/Modale';
 import { dataBreve } from '../formato';
@@ -112,7 +113,7 @@ function Profilo() {
                         <span className="profilo-avatar" aria-hidden="true">{iniziali}</span>
                         <p className="profilo-nome">{utente.nome} {utente.cognome}</p>
                         <p className="profilo-email">{utente.email}</p>
-                        <button className="btn btn-primary" onClick={() => setPersonalizza(true)}>Personalizza</button>
+                        <button className="btn btn-primary" onClick={() => setPersonalizza(true)}><Pencil aria-hidden="true" />Personalizza</button>
                     </div>
                 </aside>
 

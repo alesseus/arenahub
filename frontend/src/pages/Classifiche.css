@@ -74,11 +74,20 @@
 }
 
 .risultati-etichetta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--accent);
   text-transform: uppercase;
+}
+
+.risultati-etichetta svg {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 0 6px rgb(34 199 224 / 0.6));
 }
 
 .risultati-campione {

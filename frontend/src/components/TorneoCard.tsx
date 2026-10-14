@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { CalendarDays } from './Icone';
 import { dataBreve, fotoValida } from '../formato';
 import type { Torneo } from '../types';
 import './TorneoCard.css';
@@ -32,7 +33,7 @@ function TorneoCard({ torneo, risultati = false }: Props) {
             <div className="torneo-body">
                 <p className="torneo-gioco">{gioco?.nome ?? 'Gioco'}</p>
                 <h4 className="torneo-nome">{torneo.nome}</h4>
-                <p className="torneo-data">{dataBreve(torneo.data_ora_inizio)}</p>
+                <p className="torneo-data"><CalendarDays aria-hidden="true" /><span>{dataBreve(torneo.data_ora_inizio)}</span></p>
 
                 <div className="torneo-footer">
                     <p className={spento ? 'torneo-posti is-completo' : 'torneo-posti'}>

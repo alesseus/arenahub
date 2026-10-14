@@ -57,9 +57,19 @@
 }
 
 .dettaglio-dati dt {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-muted);
+}
+
+.dettaglio-dati dt svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  color: var(--accent-text);
 }
 
 .dettaglio-dati dd {

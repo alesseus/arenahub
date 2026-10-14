@@ -585,3 +585,20 @@
     translate: none;
   }
 }
+
+.upcoming-testa .btn svg,
+.arena-cta svg {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.upcoming-testa .btn:hover svg,
+.arena-cta:hover svg {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upcoming-testa .btn svg,
+  .arena-cta svg {
+    transition: none;
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
+import { CalendarDays, CircleDot, Flag, Users } from './Icone';
 import { annullaIscrizione, ErroreApi, getTorneo, iscriviti } from '../api';
 import { dataBreve, dataLunga, fotoValida } from '../formato';
 import type { Torneo } from '../types';
@@ -203,19 +204,19 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
 
                 <dl className="dettaglio-dati">
                     <div>
-                        <dt>Inizio</dt>
+                        <dt><CalendarDays aria-hidden="true" />Inizio</dt>
                         <dd>{dataLunga(torneo.data_ora_inizio)}</dd>
                     </div>
                     <div>
-                        <dt>Fine</dt>
+                        <dt><Flag aria-hidden="true" />Fine</dt>
                         <dd>{dataLunga(torneo.data_ora_fine)}</dd>
                     </div>
                     <div>
-                        <dt>Posti</dt>
+                        <dt><Users aria-hidden="true" />Posti</dt>
                         <dd>{torneo.iscritti}/{torneo.posti_max}{torneo.in_attesa > 0 && `, ${torneo.in_attesa} in attesa`}</dd>
                     </div>
                     <div>
-                        <dt>Stato</dt>
+                        <dt><CircleDot aria-hidden="true" />Stato</dt>
                         <dd><span className={`stato-pill is-${torneo.stato}`}>{nomiStato[torneo.stato]}</span></dd>
                     </div>
                 </dl>

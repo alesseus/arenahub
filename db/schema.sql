@@ -57,3 +57,8 @@ CREATE TABLE public.partecipazioni (
   CONSTRAINT fk_partecipazioni_iscrizione FOREIGN KEY (email) REFERENCES public.iscrizioni(email),
   CONSTRAINT fk_partecipazioni_iscrizione FOREIGN KEY (id_torneo) REFERENCES public.iscrizioni(id_torneo)
 );
+
+CREATE TABLE impostazioni (
+  id SMALLINT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+  max_tornei_utente INT NOT NULL DEFAULT 3 CHECK (max_tornei_utente >= 1)
+);

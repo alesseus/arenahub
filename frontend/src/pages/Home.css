@@ -41,8 +41,9 @@
 .arena-video {
   position: absolute;
   inset: -4%;
-  container-type: size;
-  overflow: hidden;
+  width: 108%;
+  height: 108%;
+  object-fit: cover;
   opacity: 0;
   pointer-events: none;
   translate: calc(var(--mx) * -20px) calc(var(--my) * -12px);
@@ -54,17 +55,6 @@
 .arena.is-video .arena-video {
   opacity: 1;
   animation: video-accendi 2200ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.arena-video iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100cqw, 177.78cqh);
-  height: max(100cqh, 56.25cqw);
-  border: 0;
-  translate: -50% -50%;
-  scale: 1.2;
 }
 
 .arena-colore {

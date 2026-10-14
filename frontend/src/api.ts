@@ -1,5 +1,5 @@
 import { getUtente, type Utente } from './sessione';
-import type { Classifica, DatiTorneo, Gioco, Iscrizione, IscrittiTorneo, Partita, Torneo, TorneoMio } from './types';
+import type { Classifica, DatiTorneo, Gioco, Impostazioni, Iscrizione, IscrittiTorneo, Partita, Torneo, TorneoMio } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -133,4 +133,15 @@ export function salvaRisultati(
 
 export function getClassifica(id: string) {
     return chiama<Classifica>(`/api/tornei/${id}/classifica`);
+}
+
+export function getImpostazioni() {
+    return chiama<Impostazioni>('/api/impostazioni');
+}
+
+export function salvaImpostazioni(dati: Impostazioni) {
+    return chiama<Impostazioni>('/api/impostazioni', {
+        method: 'PUT',
+        body: JSON.stringify(dati),
+    });
 }

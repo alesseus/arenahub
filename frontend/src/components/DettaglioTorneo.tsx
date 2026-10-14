@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { CalendarDays, CircleDot, Flag, Users } from './Icone';
-import { annullaIscrizione, ErroreApi, getTorneo, iscriviti } from '../api';
+import { annullaIscrizione, ErroreApi, getImpostazioni, getMieiTornei, getTorneo, iscriviti } from '../api';
 import { dataBreve, dataLunga, fotoValida } from '../formato';
-import type { Torneo } from '../types';
+import { elencoNomi, torneiAttivi, torneiInAttesa } from '../limite';
+import type { Torneo, TorneoMio } from '../types';
 import { useUtente } from '../utente-context';
 import Modale from './Modale';
 import './DettaglioTorneo.css';
 
 type Passo = 'dettaglio' | 'iscrizione' | 'annullamento';
+
+type Limite = {
+    max: number;
+    tornei: TorneoMio[];
+};
 
 type Risultato = {
     id: string;
@@ -46,6 +52,14 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
     const [passo, setPasso] = useState<Passo>('dettaglio');
     const [inCorso, setInCorso] = useState(false);
     const [erroreAzione, setErroreAzione] = useState('');
+    const [limiteCaricato, setLimite] = useState<Limite | null>(null);
+    const limite = email ? limiteCaricato : null;
+
+    function caricaLimite() {
+        return Promise.all([getImpostazioni(), getMieiTornei()])
+            .then(([impostazioni, tornei]) => setLimite({ max: impostazioni.max_tornei_utente, tornei }))
+            .catch(() => setLimite(null));
+    }
 
     useEffect(() => {
         getTorneo(id)
@@ -54,6 +68,7 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
                 const nonTrovato = e instanceof ErroreApi && e.stato === 404;
                 setRisultato({ id, errore: nonTrovato ? 'non-trovato' : 'generico' });
             });
+        if (email) caricaLimite();
     }, [id, email]);
 
     function vaiA(nuovo: Passo) {
@@ -73,6 +88,7 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
                 await annullaIscrizione(torneo.id_torneo);
             }
             setRisultato({ id, torneo: await getTorneo(id) });
+            await caricaLimite();
             setPasso('dettaglio');
         } catch (e) {
             setErroreAzione(e instanceof Error ? e.message : 'Qualcosa è andato storto');
@@ -100,6 +116,11 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
     const foto = gioco?.path_foto;
     const mio = torneo.mio_stato;
     const pieno = torneo.posti_liberi === 0;
+    const attivi = limite ? torneiAttivi(limite.tornei).length : 0;
+    const alLimite = limite !== null && attivi >= limite.max;
+    const codeDaLasciare = limite && !pieno && attivi + 1 >= limite.max
+        ? torneiInAttesa(limite.tornei).filter((t) => t.id_torneo !== torneo.id_torneo)
+        : [];
 
     if (passo === 'iscrizione') {
         return (
@@ -113,6 +134,12 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
                 {pieno && (
                     <p className="conferma-avviso">
                         Il torneo è al completo. Puoi entrare in lista d'attesa: se si libera un posto, entri tu.
+                    </p>
+                )}
+                {limite && codeDaLasciare.length > 0 && (
+                    <p className="conferma-avviso">
+                        Con questa iscrizione raggiungi il limite di {limite.max} tornei attivi: verrai tolto dalla lista d'attesa di{' '}
+                        <strong>{elencoNomi(codeDaLasciare.map((t) => t.nome))}</strong>.
                     </p>
                 )}
                 {erroreAzione && <p className="modale-errore">{erroreAzione}</p>}
@@ -175,6 +202,15 @@ function ContenutoDettaglio({ id, onChiudi }: { id: string; onChiudi: () => void
                 <div className="azione">
                     <p className="badge-attesa">In lista d'attesa, posizione {mio.posizione_attesa}</p>
                     <button className="btn btn-ghost" onClick={() => vaiA('annullamento')}>Esci dalla lista</button>
+                </div>
+            );
+        }
+        if (limite && alLimite) {
+            return (
+                <div className="azione is-spenta">
+                    <p className="azione-testo">
+                        {pieno ? "Limite raggiunto: non puoi entrare in lista d'attesa" : `Hai raggiunto il limite di ${limite.max} tornei attivi`}
+                    </p>
                 </div>
             );
         }

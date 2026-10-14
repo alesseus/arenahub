@@ -76,6 +76,60 @@
   overflow-wrap: anywhere;
 }
 
+.profilo-limite {
+  justify-self: stretch;
+  margin: -0.5rem 0 1.25rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  text-align: left;
+}
+
+.profilo-limite-testo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.profilo-limite-testo strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.profilo-limite-barra {
+  height: 6px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--surface-2);
+}
+
+.profilo-limite-barra span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--gradiente);
+  box-shadow: var(--glow-sm);
+  transition: width 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profilo-limite.is-pieno {
+  border-color: rgb(244 114 182 / 0.45);
+}
+
+.profilo-limite-avviso {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+
 .profilo-scheda .btn {
   width: 100%;
 }

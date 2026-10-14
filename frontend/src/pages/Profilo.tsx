@@ -1,9 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { Pencil } from '../components/Icone';
-import { annullaIscrizione, getMieiTornei, modificaProfilo } from '../api';
+import { annullaIscrizione, getImpostazioni, getMieiTornei, modificaProfilo } from '../api';
 import Modale from '../components/Modale';
 import { dataBreve } from '../formato';
+import { torneiAttivi } from '../limite';
 import type { TorneoMio } from '../types';
 import { useUtente } from '../utente-context';
 import './Profilo.css';
@@ -45,6 +46,7 @@ function Profilo() {
     const [promossi, setPromossi] = useState<TorneoMio[]>([]);
     const [daAnnullare, setDaAnnullare] = useState<TorneoMio | null>(null);
     const [personalizza, setPersonalizza] = useState(false);
+    const [maxTornei, setMaxTornei] = useState<number | null>(null);
 
     function carica(email: string) {
         return getMieiTornei()
@@ -66,6 +68,13 @@ function Profilo() {
         carica(email);
     }, [email, torneoAperto]);
 
+    useEffect(() => {
+        if (!email) return;
+        getImpostazioni()
+            .then((dati) => setMaxTornei(dati.max_tornei_utente))
+            .catch(() => setMaxTornei(null));
+    }, [email]);
+
     if (!utente) {
         return (
             <main className="profilo-page">
@@ -81,6 +90,8 @@ function Profilo() {
     const prossimi = tornei?.filter((t) => t.stato !== 'concluso') ?? [];
     const passati = tornei?.filter((t) => t.stato === 'concluso').reverse() ?? [];
     const iniziali = `${utente.nome.charAt(0)}${utente.cognome.charAt(0)}`;
+    const attivi = tornei ? torneiAttivi(tornei).length : null;
+    const alLimite = attivi !== null && maxTornei !== null && attivi >= maxTornei;
 
     function riga(t: TorneoMio) {
         return (
@@ -113,6 +124,25 @@ function Profilo() {
                         <span className="profilo-avatar" aria-hidden="true">{iniziali}</span>
                         <p className="profilo-nome">{utente.nome} {utente.cognome}</p>
                         <p className="profilo-email">{utente.email}</p>
+                        {attivi !== null && maxTornei !== null && (
+                            <div className={alLimite ? 'profilo-limite is-pieno' : 'profilo-limite'}>
+                                <p className="profilo-limite-testo">
+                                    <span>Tornei attivi</span>
+                                    <strong>{attivi} / {maxTornei}</strong>
+                                </p>
+                                <div
+                                    className="profilo-limite-barra"
+                                    role="progressbar"
+                                    aria-label="Tornei attivi"
+                                    aria-valuemin={0}
+                                    aria-valuemax={maxTornei}
+                                    aria-valuenow={attivi}
+                                >
+                                    <span style={{ width: `${Math.min(100, (attivi / maxTornei) * 100)}%` }} />
+                                </div>
+                                {alLimite && <p className="profilo-limite-avviso">Hai raggiunto il limite di tornei attivi</p>}
+                            </div>
+                        )}
                         <button className="btn btn-primary" onClick={() => setPersonalizza(true)}><Pencil aria-hidden="true" />Personalizza</button>
                     </div>
                 </aside>

@@ -94,3 +94,7 @@ export type Classifica = {
         punteggio: number | null;
     }[];
 };
+
+export type Impostazioni = {
+    max_tornei_utente: number;
+};

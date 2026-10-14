@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { CalendarDays, Plus, Settings2, Users } from '../components/Icone';
-import { getTornei } from '../api';
+import { getImpostazioni, getTornei, salvaImpostazioni } from '../api';
 import FormTorneo from '../components/FormTorneo';
 import GestioneTorneo from '../components/GestioneTorneo';
 import IscrittiTorneo from '../components/IscrittiTorneo';
@@ -133,6 +133,8 @@ function Admin() {
                 </button>
             </div>
 
+            <ImpostazioniLimite />
+
             <div className="admin-filtri" role="group" aria-label="Filtra per stato">
                 {filtri.map((f) => {
                     const quanti = tornei?.filter((t) => f.valore === 'tutti' || t.stato === f.valore).length;
@@ -206,6 +208,86 @@ function Admin() {
                 {contenutoModale()}
             </Modale>
         </main>
+    );
+}
+
+function ImpostazioniLimite() {
+    const [valore, setValore] = useState('');
+    const [salvato, setSalvato] = useState<number | null>(null);
+    const [caricamento, setCaricamento] = useState(true);
+    const [nonDisponibile, setNonDisponibile] = useState(false);
+    const [inCorso, setInCorso] = useState(false);
+    const [errore, setErrore] = useState('');
+    const [fatto, setFatto] = useState(false);
+
+    useEffect(() => {
+        getImpostazioni()
+            .then((dati) => {
+                setValore(String(dati.max_tornei_utente));
+                setSalvato(dati.max_tornei_utente);
+            })
+            .catch(() => setNonDisponibile(true))
+            .finally(() => setCaricamento(false));
+    }, []);
+
+    async function salva(e: FormEvent) {
+        e.preventDefault();
+        const numero = Number(valore);
+        if (!Number.isInteger(numero) || numero < 1) {
+            setErrore('Il limite deve essere un numero intero maggiore di 0');
+            setFatto(false);
+            return;
+        }
+        setInCorso(true);
+        setErrore('');
+        try {
+            const dati = await salvaImpostazioni({ max_tornei_utente: numero });
+            setSalvato(dati.max_tornei_utente);
+            setValore(String(dati.max_tornei_utente));
+            setFatto(true);
+        } catch (e) {
+            setErrore(e instanceof Error ? e.message : 'Qualcosa è andato storto');
+        } finally {
+            setInCorso(false);
+        }
+    }
+
+    return (
+        <form className="admin-impostazioni" onSubmit={salva} noValidate>
+            <div className="admin-impostazioni-testo">
+                <h2>Impostazioni</h2>
+                <label htmlFor="max-tornei">Tornei attivi per utente</label>
+            </div>
+            {nonDisponibile ? (
+                <p className="admin-impostazioni-info">Impostazioni non disponibili al momento.</p>
+            ) : (
+                <div className="admin-impostazioni-campo">
+                    <input
+                        id="max-tornei"
+                        type="number"
+                        min={1}
+                        step={1}
+                        inputMode="numeric"
+                        value={valore}
+                        disabled={caricamento}
+                        aria-invalid={errore !== '' || undefined}
+                        onChange={(e) => {
+                            setValore(e.target.value);
+                            setErrore('');
+                            setFatto(false);
+                        }}
+                    />
+                    <button
+                        className="btn btn-primary"
+                        disabled={caricamento || inCorso || Number(valore) === salvato}
+                    >
+                        Salva
+                    </button>
+                </div>
+            )}
+            {errore && <p className="modale-errore admin-impostazioni-msg" role="alert">{errore}</p>}
+            {fatto && <p className="admin-impostazioni-info admin-impostazioni-msg" role="status">Limite salvato.</p>}
+        </form>
     );
 }
 

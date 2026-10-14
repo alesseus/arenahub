@@ -1,3 +1,1 @@
-#Arena HUB
 
-ArenaHUB GRUPPO2

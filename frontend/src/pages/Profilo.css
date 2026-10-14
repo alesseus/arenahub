@@ -41,7 +41,7 @@
   margin: 0 -1.5rem;
   background:
     linear-gradient(115deg, transparent 0 58%, rgb(255 255 255 / 0.12) 58% 64%, transparent 64%),
-    linear-gradient(120deg, var(--accent) 0%, #5f9dff 50%, var(--accent-2) 100%);
+    linear-gradient(120deg, var(--accent) 0%, #c084fc 50%, var(--accent-2) 100%);
 }
 
 .profilo-avatar {
@@ -159,7 +159,7 @@
 
 .mio-torneo:has(.mio-torneo-link:focus-visible) {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+  box-shadow: 0 0 0 3px rgb(167 139 250 / 0.25);
 }
 
 .mio-torneo-nome {
@@ -242,7 +242,7 @@
   padding: 1rem 3.5rem 1rem 1.25rem;
   border: 1px solid var(--accent);
   border-radius: calc(var(--radius) * 2);
-  background: rgb(34 199 224 / 0.12);
+  background: rgb(167 139 250 / 0.12);
   animation: page-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -260,7 +260,7 @@
 }
 
 .avviso-chiudi:hover {
-  background: rgb(34 199 224 / 0.16);
+  background: rgb(167 139 250 / 0.16);
 }
 
 .avviso-chiudi::before,

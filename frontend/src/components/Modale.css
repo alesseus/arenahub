@@ -7,7 +7,7 @@
   background: var(--surface);
   color: var(--text);
   max-height: calc(100dvh - 16px);
-  box-shadow: 0 24px 64px -16px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(34 199 224 / 0.12), 0 0 48px -12px rgb(34 199 224 / 0.3);
+  box-shadow: 0 24px 64px -16px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(167 139 250 / 0.12), 0 0 48px -12px rgb(167 139 250 / 0.3);
 }
 
 .modale.is-larga {
@@ -35,7 +35,7 @@
   height: 40px;
   border: 0;
   border-radius: 50%;
-  background: rgb(10 12 17 / 0.55);
+  background: rgb(12 10 18 / 0.55);
   cursor: pointer;
   transition: background-color 160ms ease-out;
 }
@@ -49,7 +49,7 @@
   width: 16px;
   height: 2px;
   border-radius: 1px;
-  background: #f4f6fa;
+  background: #f6f3fb;
 }
 
 .modale-chiudi::before {
@@ -61,7 +61,7 @@
 }
 
 .modale-chiudi:hover {
-  background: rgb(10 12 17 / 0.85);
+  background: rgb(12 10 18 / 0.85);
 }
 
 .modale[open] {
@@ -69,7 +69,7 @@
 }
 
 .modale::backdrop {
-  background: rgb(8 10 14 / 0.7);
+  background: rgb(10 8 16 / 0.7);
   backdrop-filter: blur(4px);
 }
 

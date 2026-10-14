@@ -52,7 +52,7 @@
   bottom: 8%;
   width: 110%;
   aspect-ratio: 680 / 400;
-  background: rgb(34 199 224 / 0.16);
+  background: rgb(167 139 250 / 0.16);
   -webkit-mask: url('/bracket-win.svg') no-repeat center / contain;
   mask: url('/bracket-win.svg') no-repeat center / contain;
 }
@@ -87,11 +87,11 @@
 .risultati-etichetta svg {
   width: 18px;
   height: 18px;
-  filter: drop-shadow(0 0 6px rgb(34 199 224 / 0.6));
+  filter: drop-shadow(0 0 6px rgb(167 139 250 / 0.6));
 }
 
 .risultati-campione {
-  text-shadow: 0 0 24px rgb(34 199 224 / 0.45);
+  text-shadow: 0 0 24px rgb(167 139 250 / 0.45);
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;

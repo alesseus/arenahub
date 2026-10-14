@@ -38,7 +38,7 @@
 .campo input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+  box-shadow: 0 0 0 3px rgb(167 139 250 / 0.25);
 }
 
 .accesso-invia {

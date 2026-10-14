@@ -57,7 +57,7 @@
 .admin-filtro.is-attivo {
   border-color: var(--accent);
   box-shadow: var(--glow-sm);
-  background: rgb(34 199 224 / 0.12);
+  background: rgb(167 139 250 / 0.12);
   color: var(--text);
 }
 
@@ -116,7 +116,7 @@
 
 .admin-card.is-aperto::before {
   background: var(--gradiente);
-  box-shadow: 0 0 12px rgb(95 157 255 / 0.7);
+  box-shadow: 0 0 12px rgb(192 132 252 / 0.7);
 }
 
 .admin-card.is-chiuso::before {
@@ -297,7 +297,7 @@
 .campo textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+  box-shadow: 0 0 0 3px rgb(167 139 250 / 0.25);
 }
 
 .campo-corto {
@@ -400,7 +400,7 @@
 .stati li.is-attuale::before {
   border-color: var(--accent);
   color: var(--accent-text);
-  box-shadow: 0 0 0 4px rgb(34 199 224 / 0.2), var(--glow-sm);
+  box-shadow: 0 0 0 4px rgb(167 139 250 / 0.2), var(--glow-sm);
 }
 
 .gestione-azioni {

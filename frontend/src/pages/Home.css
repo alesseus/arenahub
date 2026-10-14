@@ -10,8 +10,8 @@
   z-index: -1;
   inset: 0;
   background:
-    radial-gradient(55% 38% at 0% 58%, rgb(139 108 255 / 0.13), transparent 70%),
-    radial-gradient(50% 32% at 100% 88%, rgb(34 199 224 / 0.11), transparent 70%);
+    radial-gradient(55% 38% at 0% 58%, rgb(244 114 182 / 0.13), transparent 70%),
+    radial-gradient(50% 32% at 100% 88%, rgb(167 139 250 / 0.11), transparent 70%);
   pointer-events: none;
 }
 
@@ -25,8 +25,8 @@
   grid-template-columns: minmax(0, 1fr);
   min-height: max(560px, calc(100svh - 68px));
   background:
-    radial-gradient(60% 70% at 85% 30%, rgb(139 108 255 / 0.35), transparent 70%),
-    radial-gradient(50% 60% at 60% 90%, rgb(34 199 224 / 0.25), transparent 70%),
+    radial-gradient(60% 70% at 85% 30%, rgb(244 114 182 / 0.35), transparent 70%),
+    radial-gradient(50% 60% at 60% 90%, rgb(167 139 250 / 0.25), transparent 70%),
     var(--photo-ground);
   color: var(--on-photo);
 }
@@ -60,7 +60,7 @@
 .arena-colore {
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, rgb(34 199 224 / 0.9) 0%, rgb(95 157 255 / 0.7) 45%, rgb(139 108 255 / 0.9) 100%);
+  background: linear-gradient(115deg, rgb(167 139 250 / 0.9) 0%, rgb(192 132 252 / 0.7) 45%, rgb(244 114 182 / 0.9) 100%);
   mix-blend-mode: color;
   opacity: 0.25;
 }
@@ -72,8 +72,8 @@
   bottom: -2%;
   height: 38%;
   background-image:
-    linear-gradient(rgb(34 199 224 / 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(139 108 255 / 0.45) 1px, transparent 1px);
+    linear-gradient(rgb(167 139 250 / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(244 114 182 / 0.45) 1px, transparent 1px);
   background-size: 64px 64px;
   transform: perspective(420px) rotateX(62deg);
   transform-origin: 50% 100%;
@@ -88,9 +88,9 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgb(8 10 14 / 0.92) 0%, rgb(8 10 14 / 0.66) 38%, rgb(8 10 14 / 0.1) 70%, rgb(8 10 14 / 0.3) 100%),
-    linear-gradient(0deg, rgb(8 10 14 / 0.95) 0%, rgb(8 10 14 / 0.3) 28%, transparent 50%),
-    linear-gradient(180deg, rgb(8 10 14 / 0.6) 0%, transparent 22%);
+    linear-gradient(90deg, rgb(10 8 16 / 0.92) 0%, rgb(10 8 16 / 0.66) 38%, rgb(10 8 16 / 0.1) 70%, rgb(10 8 16 / 0.3) 100%),
+    linear-gradient(0deg, rgb(10 8 16 / 0.95) 0%, rgb(10 8 16 / 0.3) 28%, transparent 50%),
+    linear-gradient(180deg, rgb(10 8 16 / 0.6) 0%, transparent 22%);
 }
 
 .arena::after {
@@ -101,7 +101,7 @@
   bottom: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent-2) 70%, transparent 100%);
-  box-shadow: 0 0 18px 1px rgb(139 108 255 / 0.5);
+  box-shadow: 0 0 18px 1px rgb(244 114 182 / 0.5);
 }
 
 .arena-contenuto {
@@ -129,11 +129,11 @@
 }
 
 .arena-neon {
-  background: linear-gradient(90deg, #22c7e0 0%, #5f9dff 30%, #8b6cff 50%, #5f9dff 70%, #22c7e0 100%) 0 0 / 200% 100%;
+  background: linear-gradient(90deg, #a78bfa 0%, #c084fc 30%, #f9a8d4 50%, #c084fc 70%, #a78bfa 100%) 0 0 / 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 16px rgb(95 157 255 / 0.55));
+  filter: drop-shadow(0 0 16px rgb(192 132 252 / 0.55));
   animation:
     neon-accende 1500ms linear 1150ms both,
     gradiente-scorre 6s linear 2700ms infinite;
@@ -161,20 +161,20 @@
   overflow: hidden;
   min-height: 54px;
   padding: 0 1.875rem;
-  color: #061418;
+  color: #140a24;
   font-size: 1.1875rem;
-  box-shadow: 0 0 28px -6px rgb(95 157 255 / 0.75);
+  box-shadow: 0 0 28px -6px rgb(192 132 252 / 0.75);
 }
 
 .arena-cta:hover {
-  box-shadow: 0 0 36px -4px rgb(139 108 255 / 0.85);
+  box-shadow: 0 0 36px -4px rgb(244 114 182 / 0.85);
 }
 
 .arena-secondario {
   min-height: 54px;
   padding: 0 1.625rem;
-  border-color: rgb(244 246 250 / 0.35);
-  background: rgb(8 10 14 / 0.35);
+  border-color: rgb(246 243 251 / 0.35);
+  background: rgb(10 8 16 / 0.35);
   color: var(--on-photo);
   font-size: 1.1875rem;
   backdrop-filter: blur(6px);
@@ -232,7 +232,7 @@
   width: clamp(210px, 21vw, 280px);
   aspect-ratio: 616 / 353;
   overflow: hidden;
-  border: 1px solid rgb(34 199 224 / 0.22);
+  border: 1px solid rgb(167 139 250 / 0.22);
   border-radius: var(--radius);
   background: var(--photo-ground);
   box-shadow: var(--shadow);
@@ -270,7 +270,7 @@
   right: 0;
   bottom: 0;
   padding: 1.5rem 0.875rem 0.625rem;
-  background: linear-gradient(0deg, rgb(8 10 14 / 0.92) 0%, transparent 100%);
+  background: linear-gradient(0deg, rgb(10 8 16 / 0.92) 0%, transparent 100%);
   color: var(--on-photo);
   font-family: var(--font-display);
   font-size: 1.125rem;
@@ -286,7 +286,7 @@
 .gioco-tessera:hover {
   translate: 0 -6px;
   border-color: var(--accent-2);
-  box-shadow: 0 0 0 1px rgb(139 108 255 / 0.4), 0 10px 32px -6px rgb(139 108 255 / 0.55);
+  box-shadow: 0 0 0 1px rgb(244 114 182 / 0.4), 0 10px 32px -6px rgb(244 114 182 / 0.55);
 }
 
 .gioco-tessera:hover img {
@@ -359,7 +359,7 @@
   border: 1px solid var(--line);
   border-radius: calc(var(--radius) * 2);
   background:
-    linear-gradient(90deg, rgb(10 12 17 / 0.94) 0%, rgb(10 12 17 / 0.82) 45%, rgb(10 12 17 / 0.55) 100%),
+    linear-gradient(90deg, rgb(12 10 18 / 0.94) 0%, rgb(12 10 18 / 0.82) 45%, rgb(12 10 18 / 0.55) 100%),
     url('/img/torneo-pubblico.webp') center 40% / cover no-repeat,
     var(--photo-ground);
   color: var(--on-photo);
@@ -562,8 +562,8 @@
 
   .arena-velo {
     background:
-      linear-gradient(0deg, rgb(8 10 14 / 0.97) 0%, rgb(8 10 14 / 0.75) 38%, rgb(8 10 14 / 0.2) 72%),
-      linear-gradient(180deg, rgb(8 10 14 / 0.6) 0%, transparent 22%);
+      linear-gradient(0deg, rgb(10 8 16 / 0.97) 0%, rgb(10 8 16 / 0.75) 38%, rgb(10 8 16 / 0.2) 72%),
+      linear-gradient(180deg, rgb(10 8 16 / 0.6) 0%, transparent 22%);
   }
 
 

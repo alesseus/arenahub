@@ -110,12 +110,12 @@
 
 .tab-colonna:not(:last-child) .tab-slot.is-fatta::after {
   border-color: var(--accent);
-  filter: drop-shadow(0 0 4px rgb(34 199 224 / 0.6));
+  filter: drop-shadow(0 0 4px rgb(167 139 250 / 0.6));
 }
 
 .tab-colonna:not(:first-child) .tab-slot:has(.is-programmata, .is-conclusa)::before {
   border-color: var(--accent);
-  filter: drop-shadow(0 0 4px rgb(34 199 224 / 0.6));
+  filter: drop-shadow(0 0 4px rgb(167 139 250 / 0.6));
 }
 
 .tab-partita {
@@ -125,7 +125,7 @@
   width: 100%;
   padding: 0;
   overflow: hidden;
-  border: 1px solid rgb(34 199 224 / 0.4);
+  border: 1px solid rgb(167 139 250 / 0.4);
   border-radius: var(--radius);
   background: var(--surface-2);
   color: var(--text);
@@ -135,7 +135,7 @@
 
 .tab-partita.is-conclusa,
 .tab-partita.is-libera {
-  border-color: rgb(34 199 224 / 0.7);
+  border-color: rgb(167 139 250 / 0.7);
   box-shadow: var(--glow-sm);
 }
 
@@ -151,18 +151,18 @@ button.tab-partita:hover {
 button.tab-partita:focus-visible {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+  box-shadow: 0 0 0 3px rgb(167 139 250 / 0.25);
 }
 
 .tab-partita.is-scelta {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgb(34 199 224 / 0.25);
+  box-shadow: 0 0 0 3px rgb(167 139 250 / 0.25);
 }
 
 .tab-partita.is-anteprima,
 .tab-partita.is-futura {
   border-style: dashed;
-  border-color: rgb(34 199 224 / 0.35);
+  border-color: rgb(167 139 250 / 0.35);
   background: transparent;
 }
 
@@ -176,7 +176,7 @@ button.tab-partita:focus-visible {
 }
 
 .tab-giocatore + .tab-giocatore {
-  border-top: 1px solid rgb(34 199 224 / 0.22);
+  border-top: 1px solid rgb(167 139 250 / 0.22);
 }
 
 .tab-nome {
@@ -197,7 +197,7 @@ button.tab-partita:focus-visible {
 }
 
 .tab-giocatore.is-vincitore {
-  background: rgb(34 199 224 / 0.1);
+  background: rgb(167 139 250 / 0.1);
 }
 
 .tab-giocatore.is-vincitore .tab-punti {
@@ -221,7 +221,7 @@ button.tab-partita:focus-visible {
 
 .tab-data {
   padding: 0.125rem 0.75rem;
-  border-top: 1px solid rgb(34 199 224 / 0.22);
+  border-top: 1px solid rgb(167 139 250 / 0.22);
   font-size: 0.75rem;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
@@ -298,8 +298,8 @@ button.tab-partita:focus-visible {
   border: 1px solid var(--accent);
   border-radius: var(--radius);
   background:
-    linear-gradient(115deg, transparent 0 70%, rgb(34 199 224 / 0.1) 70% 76%, transparent 76%),
-    rgb(34 199 224 / 0.08);
+    linear-gradient(115deg, transparent 0 70%, rgb(167 139 250 / 0.1) 70% 76%, transparent 76%),
+    rgb(167 139 250 / 0.08);
 }
 
 .tab-campione-etichetta {

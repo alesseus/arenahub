@@ -602,3 +602,11 @@
     transition: none;
   }
 }
+
+@media (max-width: 480px) {
+  .upcoming-testa .btn {
+    min-height: 40px;
+    padding: 0 0.75rem;
+    font-size: 0.9375rem;
+  }
+}

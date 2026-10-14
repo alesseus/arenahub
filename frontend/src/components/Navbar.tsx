@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { Link, NavLink } from 'react-router';
-import { ChartNoAxesColumn, House, LayoutDashboard, LogIn, LogOut, Moon, Sun, Trophy, UserRound } from './Icone';
+import { ChartNoAxesColumn, House, LayoutDashboard, LogIn, LogOut, Menu, Moon, Sun, Trophy, UserRound, X } from './Icone';
 import { salvaTema } from '../sessione';
 import { useUtente } from '../utente-context';
 import './Navbar.css';
@@ -16,6 +16,20 @@ function temaIniziale(): Tema {
 function Navbar() {
     const { utente, apriAccesso, esci } = useUtente();
     const [tema, setTema] = useState<Tema>(temaIniziale);
+    const [menuAperto, setMenuAperto] = useState(false);
+
+    useEffect(() => {
+        if (!menuAperto) return;
+        function tasto(e: KeyboardEvent) {
+            if (e.key === 'Escape') setMenuAperto(false);
+        }
+        document.addEventListener('keydown', tasto);
+        return () => document.removeEventListener('keydown', tasto);
+    }, [menuAperto]);
+
+    function chiudiSuScelta(e: MouseEvent<HTMLElement>) {
+        if ((e.target as HTMLElement).closest('a, .navbar-azione button')) setMenuAperto(false);
+    }
 
     function cambiaTema() {
         const nuovo = tema === 'dark' ? 'light' : 'dark';
@@ -25,7 +39,7 @@ function Navbar() {
     }
 
     return (
-        <header className="navbar">
+        <header className={menuAperto ? 'navbar is-aperta' : 'navbar'}>
             <div className="navbar-marchi">
                 <Link to="/" className="navbar-logo">ArenaHub</Link>
                 <a
@@ -39,7 +53,16 @@ function Navbar() {
                     <img className="its-chiaro" src="/img/its-chiaro.png" alt="" width="1223" height="220" />
                 </a>
             </div>
-            <nav>
+            <button
+                className="navbar-menu-bottone"
+                onClick={() => setMenuAperto(!menuAperto)}
+                aria-expanded={menuAperto}
+                aria-controls="navbar-menu"
+                aria-label={menuAperto ? 'Chiudi il menu' : 'Apri il menu'}
+            >
+                {menuAperto ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+            </button>
+            <nav id="navbar-menu" className="navbar-menu" onClick={chiudiSuScelta}>
                 <ul className="navbar-links">
                     <li><NavLink to="/" end><House aria-hidden="true" />Home</NavLink></li>
                     <li><NavLink to="/tornei"><Trophy aria-hidden="true" />Tornei</NavLink></li>
@@ -62,10 +85,10 @@ function Navbar() {
                                     ? <NavLink to="/admin"><LayoutDashboard aria-hidden="true" />Admin</NavLink>
                                     : <NavLink to="/profilo"><UserRound aria-hidden="true" />Profilo</NavLink>}
                             </li>
-                            <li><button className="btn btn-ghost" onClick={esci}><LogOut aria-hidden="true" />Esci</button></li>
+                            <li className="navbar-azione"><button className="btn btn-ghost" onClick={esci}><LogOut aria-hidden="true" />Esci</button></li>
                         </>
                     ) : (
-                        <li><button className="btn btn-primary" onClick={() => apriAccesso()}><LogIn aria-hidden="true" />Accedi</button></li>
+                        <li className="navbar-azione"><button className="btn btn-primary" onClick={() => apriAccesso()}><LogIn aria-hidden="true" />Accedi</button></li>
                     )}
                 </ul>
             </nav>

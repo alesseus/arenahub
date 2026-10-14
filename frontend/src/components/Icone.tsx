@@ -199,3 +199,22 @@ export function Users(props: Props) {
         </Icona>
     );
 }
+
+export function Menu(props: Props) {
+    return (
+        <Icona {...props}>
+            <path d="M4 5h16" />
+            <path d="M4 12h16" />
+            <path d="M4 19h16" />
+        </Icona>
+    );
+}
+
+export function X(props: Props) {
+    return (
+        <Icona {...props}>
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+        </Icona>
+    );
+}

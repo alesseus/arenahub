@@ -102,6 +102,8 @@ INSERT INTO partecipazioni (id_partita, id_torneo, email, punteggio, posizione, 
 (11, 9, 'giocatore2@arenahub.test', 12,  2, false),
 (11, 9, 'giocatore3@arenahub.test', 13,  1, true);
 
+INSERT INTO impostazioni (id) VALUES (1);
+
 SELECT setval(pg_get_serial_sequence('giochi',  'id_gioco'),   (SELECT MAX(id_gioco)   FROM giochi));
 SELECT setval(pg_get_serial_sequence('tornei',  'id_torneo'),  (SELECT MAX(id_torneo)  FROM tornei));
 SELECT setval(pg_get_serial_sequence('partite', 'id_partita'), (SELECT MAX(id_partita) FROM partite));

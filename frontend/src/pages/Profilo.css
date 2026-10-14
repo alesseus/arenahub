@@ -41,7 +41,7 @@
   margin: 0 -1.5rem;
   background:
     linear-gradient(115deg, transparent 0 58%, rgb(255 255 255 / 0.12) 58% 64%, transparent 64%),
-    linear-gradient(135deg, var(--accent) 0%, #0b6f80 100%);
+    linear-gradient(120deg, var(--accent) 0%, #5f9dff 50%, var(--accent-2) 100%);
 }
 
 .profilo-avatar {
@@ -124,7 +124,7 @@
 }
 
 .mio-torneo.is-aperto::before {
-  background: var(--accent);
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
   box-shadow: var(--glow-sm);
 }
 

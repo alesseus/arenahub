@@ -77,7 +77,7 @@
 }
 
 .admin-filtro.is-attivo .admin-conta {
-  background: var(--accent);
+  background: var(--gradiente);
   color: var(--on-accent);
 }
 
@@ -115,8 +115,8 @@
 }
 
 .admin-card.is-aperto::before {
-  background: var(--accent);
-  box-shadow: 0 0 12px rgb(34 199 224 / 0.8);
+  background: var(--gradiente);
+  box-shadow: 0 0 12px rgb(95 157 255 / 0.7);
 }
 
 .admin-card.is-chiuso::before {
@@ -229,7 +229,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--accent);
+  background: var(--gradiente);
   box-shadow: var(--glow-sm);
 }
 
@@ -383,14 +383,14 @@
 }
 
 .stati li.is-fatto::before {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: transparent;
+  background: var(--gradiente);
   color: var(--on-accent);
 }
 
 .stati li.is-fatto + li::after,
 .stati li.is-attuale::after {
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
 .stati li.is-attuale {

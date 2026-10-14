@@ -30,7 +30,10 @@
   font-size: clamp(4rem, 10vw, 6.5rem);
   font-weight: 800;
   line-height: 1;
-  color: var(--accent);
+  background: var(--gradiente);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   text-transform: uppercase;
 }
 

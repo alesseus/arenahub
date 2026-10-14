@@ -142,7 +142,7 @@
 }
 
 .risultati-lista li.is-1 .risultati-pos {
-  background: var(--accent);
+  background: var(--gradiente);
   color: var(--on-accent);
   box-shadow: var(--glow-sm);
 }

@@ -232,7 +232,7 @@
 }
 
 .cal-voce.is-aperto .cal-voce-data {
-  background: var(--accent);
+  background: var(--gradiente);
   color: var(--on-accent);
 }
 

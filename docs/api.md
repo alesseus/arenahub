@@ -38,6 +38,8 @@ I campi JSON hanno gli stessi nomi degli attributi del database. I campi calcola
 | POST | `/api/tornei/{id_torneo}/partite` | Creazione di una partita | admin |
 | PUT | `/api/partite/{id_partita}/risultati` | Inserimento risultati | admin |
 | GET | `/api/tornei/{id_torneo}/classifica` | Classifica del torneo | pubblico |
+| GET | `/api/impostazioni` | Impostazioni della piattaforma | pubblico |
+| PUT | `/api/impostazioni` | Modifica delle impostazioni | admin |
 
 ---
 
@@ -244,6 +246,11 @@ Transizioni ammesse: `aperto → chiuso → concluso`.
 
 Nessun body. Se il torneo è pieno l'utente entra in lista d'attesa.
 
+**Limite di tornei attivi.** Ogni utente può avere al massimo `max_tornei_utente` tornei attivi (default 3, vedi [Impostazioni](#impostazioni)).
+- Sono **tornei attivi** le iscrizioni confermate (`attesa = false`) a tornei con stato diverso da `concluso`. La lista d'attesa non conta nel limite.
+- Un utente che ha già raggiunto il limite non può né iscriversi né mettersi in lista d'attesa.
+- Se con questa iscrizione l'utente raggiunge il limite, viene tolto da tutte le sue liste d'attesa.
+
 **201** — posto disponibile
 ```json
 { "id_torneo": 3, "email": "mario@its.it", "data_iscrizione": "2026-10-14T10:30:00",
@@ -260,10 +267,13 @@ Nessun body. Se il torneo è pieno l'utente entra in lista d'attesa.
 - `404` → `{"errore": "Torneo non trovato"}`
 - `409` → `{"errore": "Sei già iscritto a questo torneo"}`
 - `422` → `{"errore": "Iscrizioni chiuse"}`
+- `422` → `{"errore": "Hai raggiunto il limite di 3 tornei attivi"}` (il numero è il valore attuale di `max_tornei_utente`)
 
 ### `DELETE /api/tornei/{id_torneo}/iscrizioni` — utente
 
 Annulla l'iscrizione o l'attesa. Se si libera un posto, il primo in lista d'attesa viene promosso.
+
+Nella promozione si salta (e si toglie dalla lista d'attesa) chi ha già raggiunto il limite di tornei attivi. Se la promozione porta l'utente al limite, viene tolto dalle sue altre liste d'attesa.
 
 **204** — nessun contenuto
 
@@ -372,3 +382,34 @@ Query (opzionali): `?id_torneo=` `&dal=` `&al=`
 ```
 
 - `404` → torneo inesistente
+
+---
+
+## Impostazioni
+
+Impostazioni della piattaforma, salvate nella tabella `impostazioni` (una sola riga).
+
+### `GET /api/impostazioni` — pubblico
+
+**200**
+```json
+{ "max_tornei_utente": 3 }
+```
+
+### `PUT /api/impostazioni` — admin
+
+**Body**
+```json
+{ "max_tornei_utente": 5 }
+```
+
+**200**
+```json
+{ "max_tornei_utente": 5 }
+```
+
+Se il limite viene abbassato, chi ha già più tornei attivi del nuovo valore mantiene le iscrizioni ma non può iscriversi ad altri tornei.
+
+- `401` → utente non autenticato
+- `403` → `{"errore": "Operazione riservata agli admin"}`
+- `422` → `{"errore": "Il limite deve essere un numero intero maggiore di 0"}`

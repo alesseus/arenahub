@@ -5,6 +5,7 @@ import { getGiochi, getTornei } from '../api';
 import TorneoCard from '../components/TorneoCard';
 import { fotoValida } from '../formato';
 import type { Gioco, Torneo } from '../types';
+import { caricaYouTube, type PlayerYouTube } from '../youtube';
 import './Home.css';
 
 function Home() {
@@ -59,26 +60,74 @@ function Home() {
     );
 }
 
+const VIDEO_ID = 'QlG4tsOc28M';
+const VIDEO_INIZIO = 22;
+const VIDEO_FINE = 62;
+
 function Arena() {
     const ref = useRef<HTMLElement>(null);
-    const video = useRef<HTMLVideoElement>(null);
+    const video = useRef<HTMLDivElement>(null);
     const frame = useRef(0);
 
     useEffect(() => {
         const sezione = ref.current;
         if (!sezione) return;
         const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let player: PlayerYouTube | null = null;
+        let pronto = false;
+        let visibile = true;
+        let annullato = false;
+
+        if (!ridotto) {
+            caricaYouTube().then((yt) => {
+                if (annullato || !video.current) return;
+                player = new yt.Player(video.current, {
+                    host: 'https://www.youtube-nocookie.com',
+                    videoId: VIDEO_ID,
+                    playerVars: {
+                        autoplay: 1,
+                        mute: 1,
+                        controls: 0,
+                        start: VIDEO_INIZIO,
+                        end: VIDEO_FINE,
+                        playsinline: 1,
+                        rel: 0,
+                        iv_load_policy: 3,
+                        cc_load_policy: 0,
+                        disablekb: 1,
+                        fs: 0,
+                    },
+                    events: {
+                        onReady: (e) => {
+                            pronto = true;
+                            e.target.mute();
+                            if (visibile) e.target.playVideo();
+                        },
+                        onStateChange: (e) => {
+                            if (e.data === yt.PlayerState.PLAYING) sezione.classList.add('is-video');
+                            if (e.data === yt.PlayerState.ENDED) {
+                                e.target.seekTo(VIDEO_INIZIO, true);
+                                e.target.playVideo();
+                            }
+                        },
+                    },
+                });
+            });
+        }
+
         const osservatore = new IntersectionObserver(([voce]) => {
-            sezione.classList.toggle('is-fuori', !voce.isIntersecting);
-            const v = video.current;
-            if (!v) return;
-            if (voce.isIntersecting && !ridotto) v.play().catch(() => {});
-            else v.pause();
+            visibile = voce.isIntersecting;
+            sezione.classList.toggle('is-fuori', !visibile);
+            if (!player || !pronto) return;
+            if (visibile) player.playVideo();
+            else player.pauseVideo();
         });
         osservatore.observe(sezione);
         return () => {
+            annullato = true;
             osservatore.disconnect();
             cancelAnimationFrame(frame.current);
+            player?.destroy();
         };
     }, []);
 
@@ -98,18 +147,9 @@ function Arena() {
     return (
         <section className="arena" ref={ref} onPointerMove={muovi} aria-labelledby="arena-titolo">
             <div className="arena-scena" aria-hidden="true">
-                <video
-                    ref={video}
-                    className="arena-video"
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    poster="/video/arena-poster.jpg"
-                >
-                    <source media="(max-width: 700px)" src="/video/arena-mobile.mp4" type="video/mp4" />
-                    <source src="/video/arena.mp4" type="video/mp4" />
-                </video>
+                <div className="arena-video">
+                    <div ref={video} />
+                </div>
                 <span className="arena-colore" />
                 <span className="arena-velo" />
                 <span className="arena-griglia" />

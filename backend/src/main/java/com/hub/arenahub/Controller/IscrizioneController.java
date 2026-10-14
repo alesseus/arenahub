@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hub.arenahub.Model.Iscrizione;
 import com.hub.arenahub.Model.Torneo;
 import com.hub.arenahub.Model.Utente;
+import com.hub.arenahub.Services.ImpostazioniSrv;
 import com.hub.arenahub.Services.IscrizioniSrv;
 import com.hub.arenahub.Services.TorneiSrv;
 import com.hub.arenahub.Services.UtentiSrv;
@@ -37,6 +38,9 @@ public class IscrizioneController {
 	@Autowired
 	private UtentiSrv utentiSrv;
 
+	@Autowired
+	private ImpostazioniSrv impostazioniSrv;
+
 	@PostMapping("/{id_torneo}/iscrizioni")
 	public ResponseEntity<?> iscrivi(@PathVariable Long id_torneo,
 			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
@@ -53,6 +57,10 @@ public class IscrizioneController {
 		}
 		if (!"aperto".equals(torneo.get().getStato())) {
 			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Iscrizioni chiuse");
+		}
+		if (iscrizioniSrv.limiteRaggiunto(utente.get().getEmail())) {
+			return errore(HttpStatus.UNPROCESSABLE_CONTENT,
+					"Hai raggiunto il limite di " + impostazioniSrv.getMaxTorneiUtente() + " tornei attivi");
 		}
 		Iscrizione nuova = iscrizioniSrv.addIscrizione(torneo.get(), utente.get().getEmail());
 		return ResponseEntity.status(HttpStatus.CREATED).body(nuova);

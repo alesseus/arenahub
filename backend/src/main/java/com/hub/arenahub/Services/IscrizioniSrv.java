@@ -15,12 +15,19 @@ import com.hub.arenahub.Model.Iscrizione;
 import com.hub.arenahub.Model.IscrizioneId;
 import com.hub.arenahub.Model.Torneo;
 import com.hub.arenahub.Repository.IscrizioniRepo;
+import com.hub.arenahub.Repository.TorneiRepo;
 
 @Service
 public class IscrizioniSrv {
 
 	@Autowired
 	private IscrizioniRepo iscrizioniRepo;
+
+	@Autowired
+	private TorneiRepo torneiRepo;
+
+	@Autowired
+	private ImpostazioniSrv impostazioniSrv;
 
 	public List<Iscrizione> getIscrizioniTorneo(Long id_torneo) {
 		return iscrizioniRepo.findAll().stream()
@@ -91,6 +98,8 @@ public class IscrizioniSrv {
 		iscrizioniRepo.save(nuova);
 		if (nuova.isAttesa()) {
 			nuova.setPosizione_attesa(posizioneAttesa(torneo.getId_torneo(), email));
+		} else if (limiteRaggiunto(email)) {
+			togliDalleAttese(email);
 		}
 		return nuova;
 	}
@@ -106,9 +115,37 @@ public class IscrizioniSrv {
 			if (iscritti >= torneo.getPosti_max()) {
 				break;
 			}
+			if (limiteRaggiunto(i.getEmail())) {
+				iscrizioniRepo.delete(i);
+				continue;
+			}
 			i.setAttesa(false);
 			iscrizioniRepo.save(i);
 			iscritti++;
+			if (limiteRaggiunto(i.getEmail())) {
+				togliDalleAttese(i.getEmail());
+			}
+		}
+	}
+
+	public int contaTorneiAttivi(String email) {
+		return (int) getIscrizioniUtente(email).stream()
+				.filter(i -> !i.isAttesa())
+				.filter(i -> torneiRepo.findById(i.getId_torneo())
+						.map(t -> !"concluso".equals(t.getStato()))
+						.orElse(false))
+				.count();
+	}
+
+	public boolean limiteRaggiunto(String email) {
+		return contaTorneiAttivi(email) >= impostazioniSrv.getMaxTorneiUtente();
+	}
+
+	public void togliDalleAttese(String email) {
+		for (Iscrizione i : getIscrizioniUtente(email)) {
+			if (i.isAttesa()) {
+				iscrizioniRepo.delete(i);
+			}
 		}
 	}
 

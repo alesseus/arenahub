@@ -1,0 +1,8 @@
+node_modules
+arenahub
+dist
+mock
+.vercel
+.env
+.env.*
+*.log

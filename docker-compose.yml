@@ -5,14 +5,12 @@ services:
       PORT: 8080
       TZ: Europe/Rome
       DB_PASSWORD: ${DB_PASSWORD}
+      SERVER_SERVLET_SESSION_COOKIE_SECURE: "false"
     ports:
       - "8080:8080"
 
   frontend:
-    build:
-      context: ./frontend
-      args:
-        VITE_API_URL: http://localhost:8080
+    build: ./frontend
     ports:
       - "5173:80"
     depends_on:

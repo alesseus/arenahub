@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,7 +43,7 @@ public class IscrizioneController {
 
 	@PostMapping("/{id_torneo}/iscrizioni")
 	public ResponseEntity<?> iscrivi(@PathVariable Long id_torneo,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
@@ -68,7 +68,7 @@ public class IscrizioneController {
 
 	@DeleteMapping("/{id_torneo}/iscrizioni")
 	public ResponseEntity<?> annulla(@PathVariable Long id_torneo,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
@@ -90,7 +90,7 @@ public class IscrizioneController {
 
 	@GetMapping("/{id_torneo}/iscritti")
 	public ResponseEntity<?> iscritti(@PathVariable Long id_torneo,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");

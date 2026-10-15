@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,7 +71,7 @@ public class TorneoController {
 
 	@GetMapping("/{id_torneo}")
 	public ResponseEntity<?> dettaglio(@PathVariable Long id_torneo,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Torneo> optional = torneiSrv.vediTorneo(id_torneo);
 		if (optional.isEmpty()) {
 			return errore(HttpStatus.NOT_FOUND, "Torneo non trovato");
@@ -86,7 +86,7 @@ public class TorneoController {
 
 	@PostMapping
 	public ResponseEntity<?> crea(@RequestBody Torneo nuovo,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		ResponseEntity<?> negato = controllaAdmin(email);
 		if (negato != null) {
 			return negato;
@@ -100,7 +100,7 @@ public class TorneoController {
 
 	@PutMapping("/{id_torneo}")
 	public ResponseEntity<?> modifica(@PathVariable Long id_torneo, @RequestBody Torneo cambiato,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		ResponseEntity<?> negato = controllaAdmin(email);
 		if (negato != null) {
 			return negato;
@@ -121,7 +121,7 @@ public class TorneoController {
 
 	@PutMapping("/{id_torneo}/stato")
 	public ResponseEntity<?> cambiaStato(@PathVariable Long id_torneo, @RequestBody Map<String, String> body,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		ResponseEntity<?> negato = controllaAdmin(email);
 		if (negato != null) {
 			return negato;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -90,7 +90,7 @@ public class PartitaController {
 
 	@PutMapping("/{id_partita}/risultati")
 	public ResponseEntity<?> inserisciRisultati(@PathVariable Long id_partita, @RequestBody RisultatiRequest request,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");

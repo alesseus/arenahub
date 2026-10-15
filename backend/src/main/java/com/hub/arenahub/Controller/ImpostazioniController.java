@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +35,7 @@ public class ImpostazioniController {
 
 	@PutMapping
 	public ResponseEntity<?> modifica(@RequestBody(required = false) Map<String, Object> body,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +16,9 @@ import com.hub.arenahub.Dto.LoginRequest;
 import com.hub.arenahub.Dto.RegistrazioneRequest;
 import com.hub.arenahub.Model.Utente;
 import com.hub.arenahub.Services.UtentiSrv;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,7 +28,7 @@ public class AuthController {
 	private UtentiSrv utentiSrv;
 
 	@PostMapping("/registrazione")
-	public ResponseEntity<?> registrazione(@RequestBody RegistrazioneRequest request) {
+	public ResponseEntity<?> registrazione(@RequestBody RegistrazioneRequest request, HttpServletRequest richiesta) {
 		if (vuoto(request.getNome()) || vuoto(request.getCognome()) || vuoto(request.getEmail())
 				|| vuoto(request.getPassword())) {
 			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Nome, cognome, email e password sono obbligatori");
@@ -49,11 +51,13 @@ public class AuthController {
 		utente.setPassword(utentiSrv.passwordHash(request.getPassword()));
 		utente.setAdmin(false);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(utentiSrv.addUtente(utente));
+		Utente salvato = utentiSrv.addUtente(utente);
+		apriSessione(richiesta, salvato);
+		return ResponseEntity.status(HttpStatus.CREATED).body(salvato);
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+	public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest richiesta) {
 		if (vuoto(request.getEmail()) || vuoto(request.getPassword())) {
 			return errore(HttpStatus.UNPROCESSABLE_CONTENT, "Email e password obbligatorie");
 		}
@@ -61,15 +65,26 @@ public class AuthController {
 		if (utente.isEmpty() || !utentiSrv.passwordVerify(request.getPassword(), utente.get())) {
 			return errore(HttpStatus.UNAUTHORIZED, "Email o password errati");
 		}
+		apriSessione(richiesta, utente.get());
 		return ResponseEntity.ok(utente.get());
 	}
 
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(@RequestHeader(value = "Utente-Loggato", required = false) String email) {
-		if (utentiSrv.vediUtente(email).isEmpty()) {
+	public ResponseEntity<?> logout(HttpServletRequest richiesta) {
+		HttpSession sessione = richiesta.getSession(false);
+		if (sessione == null || sessione.getAttribute("utente") == null) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
 		}
+		sessione.invalidate();
 		return ResponseEntity.noContent().build();
+	}
+
+	private void apriSessione(HttpServletRequest richiesta, Utente utente) {
+		HttpSession vecchia = richiesta.getSession(false);
+		if (vecchia != null) {
+			vecchia.invalidate();
+		}
+		richiesta.getSession(true).setAttribute("utente", utente.getEmail());
 	}
 
 	private boolean vuoto(String valore) {

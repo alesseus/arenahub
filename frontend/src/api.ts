@@ -1,7 +1,7 @@
-import { getUtente, type Utente } from './sessione';
+import type { Utente } from './sessione';
 import type { Classifica, DatiTorneo, Gioco, Impostazioni, Iscrizione, IscrittiTorneo, Partita, Torneo, TorneoMio } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL;
+export const SESSIONE_SCADUTA = 'arenahub-sessione-scaduta';
 
 export class ErroreApi extends Error {
     stato: number;
@@ -13,19 +13,20 @@ export class ErroreApi extends Error {
 }
 
 async function chiama<T>(percorso: string, opzioni: RequestInit = {}): Promise<T> {
-    const utente = getUtente();
-    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    if (utente) {
-        headers['Utente-Loggato'] = utente.email;
-    }
-
     let risposta: Response;
     try {
-        risposta = await fetch(`${API_URL}${percorso}`, { ...opzioni, headers });
+        risposta = await fetch(percorso, {
+            ...opzioni,
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+        });
     } catch {
         throw new ErroreApi(0, 'Il server non risponde. Riprova tra qualche secondo.');
     }
 
+    if (risposta.status === 401 && !percorso.startsWith('/api/auth/')) {
+        window.dispatchEvent(new Event(SESSIONE_SCADUTA));
+    }
     if (!risposta.ok) {
         const corpo = await risposta.json().catch(() => null);
         throw new ErroreApi(risposta.status, corpo?.errore ?? 'Qualcosa è andato storto');
@@ -68,6 +69,10 @@ export function registrazione(dati: { nome: string; cognome: string; email: stri
 
 export function logout() {
     return chiama<void>('/api/auth/logout', { method: 'POST' });
+}
+
+export function getProfilo() {
+    return chiama<Utente>('/api/utenti/me');
 }
 
 export function getMieiTornei() {

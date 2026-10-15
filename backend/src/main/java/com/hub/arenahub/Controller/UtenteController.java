@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +41,7 @@ public class UtenteController {
 	private TorneiSrv torneiSrv;
 
 	@GetMapping
-	public ResponseEntity<?> profilo(@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+	public ResponseEntity<?> profilo(@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
@@ -51,7 +51,7 @@ public class UtenteController {
 
 	@PatchMapping
 	public ResponseEntity<?> modificaProfilo(@RequestBody ProfiloRequest request,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> optional = utentiSrv.vediUtente(email);
 		if (optional.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");
@@ -73,7 +73,7 @@ public class UtenteController {
 
 	@GetMapping("/tornei")
 	public ResponseEntity<?> mieiTornei(@RequestParam(required = false) String stato,
-			@RequestHeader(value = "Utente-Loggato", required = false) String email) {
+			@SessionAttribute(value = "utente", required = false) String email) {
 		Optional<Utente> utente = utentiSrv.vediUtente(email);
 		if (utente.isEmpty()) {
 			return errore(HttpStatus.UNAUTHORIZED, "Utente non autenticato");

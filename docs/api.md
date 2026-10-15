@@ -45,6 +45,8 @@ I campi JSON hanno gli stessi nomi degli attributi del database. I campi calcola
 
 ## Autenticazione
 
+Sessione con cookie: login e registrazione creano una sessione sul server e rispondono con il cookie `JSESSIONID` (`HttpOnly`, `Secure`, `SameSite=Lax`). Il browser lo rimanda da solo a ogni richiesta; il logout chiude la sessione. Il frontend chiama `/api` sullo stesso dominio (proxy di Vite in locale, rewrite di Vercel in produzione), così il cookie non è di terze parti.
+
 ### `POST /api/auth/registrazione` — pubblico
 
 **Body**
